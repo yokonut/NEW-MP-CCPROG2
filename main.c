@@ -10,6 +10,7 @@ int main()
     {
         displayMainMenu();
         scanf("%d", &choice);
+        printf("\n");
 
         switch (choice)
         {
