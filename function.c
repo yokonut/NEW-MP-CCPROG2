@@ -478,3 +478,5 @@ void deleteEntry(Entry dictionary[], int *entryCount)
         printf("removed!!");
     }
 }
+
+//ALMOST DONE ASLDKJFLASKDJFLAKSDJFLKSDFJ
