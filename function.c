@@ -1,5 +1,18 @@
+/*********************************************************************************************************
+This is to certify that this project is our own work, based on our personal efforts in studying and applying the concepts
+learned. We have constructed the functions and their respective algorithms and corresponding code by ourselves. The
+program was run, tested, and debugged by our own efforts. We further certify that we have not copied in part or whole or
+otherwise plagiarized the work of other students and/or persons.
+ KO YOHAN, DLSU ID# 11849020
+ SOPHIA ILUSTRE, DLSU ID# 
+*********************************************************************************************************/
+
 #include "declaration.h"
 
+/*  
+    Display for Main Menu
+
+*/
 void displayMainMenu()
 {
 
@@ -12,7 +25,10 @@ void displayMainMenu()
     printf("=====================================\n");
     printf("Enter your choice: ");
 }
+/*
+    Display for manage Date Menu
 
+*/
 void manageDataMenu()
 {
 
@@ -34,6 +50,10 @@ void manageDataMenu()
     printf("Enter your choice: ");
 }
 
+/*
+    Display for language tool Menu
+
+*/
 void languageToolMenu()
 {
 
@@ -47,6 +67,13 @@ void languageToolMenu()
     printf("Enter your choice: ");
 }
 
+/**
+ *  function manageData scans the user's choice of option in the manageData menu
+ * 
+ * 
+ * @param dictionary - contains an array of struct
+ * @param entryCount  - contains the total number of entries
+ */
 void manageData(Entry dictionary[], int *entryCount)
 {
     int manageChoice;
@@ -94,7 +121,7 @@ void manageData(Entry dictionary[], int *entryCount)
             searchTranslation(dictionary, *entryCount);
             break; // Back to Main Menu
         case 9:
-            exportFile(dictionary,*entryCount);
+            exportFile(dictionary, *entryCount);
             break;
         case 10:
             return; // Back to Main Menu
@@ -107,6 +134,11 @@ void manageData(Entry dictionary[], int *entryCount)
     } while (manageChoice != 1234);
 }
 
+/**
+ * function displayEntry only display ONE of the entry
+ * 
+ * @param dictionary - a struct containing all the pairs and count
+ */
 void displayEntry(Entry dictionary)
 {
     int i, j;
@@ -117,7 +149,11 @@ void displayEntry(Entry dictionary)
     }
 }
 
-void sortEntry(Entry *dictionary)
+/**
+ *  the function sort entry sorts all the pairs according ALPHABETICALLY 
+ * @param dictionary - array of struct
+ */
+void sortEntry(Entry dictionary[])
 {
     int i, j;
 
@@ -142,6 +178,16 @@ void sortEntry(Entry *dictionary)
     }
 }
 
+/**
+ * function checkEntry checks if an existing entry is in the array of struct
+ * 
+ * @param dictionary - array of struct
+ * @param entryCount - total number of struct in dictionary
+ * @param language - string to search in dictionary
+ * @param translation - string to search in dictinonary
+ * @param indexFound - array of integers which stores the found indicies
+ */
+
 int checkEntry(Entry dictionary[], int entryCount, String20 language, String20 translation, int indexFound[])
 {
     int i;
@@ -159,6 +205,12 @@ int checkEntry(Entry dictionary[], int entryCount, String20 language, String20 t
     return count;
 }
 
+/**
+ * function addEntry adds new entry to the array of struct dictionary[]
+ * 
+ * @param dictionary - array of struct
+ * @param entryCount - total number of struct in dictionary
+ */
 void addEntry(Entry dictionary[], int *entryCount)
 {
     String20 language;
@@ -244,6 +296,13 @@ void addEntry(Entry dictionary[], int *entryCount)
     } while (response != 'y' && response != 'Y' && response != 'n' && response != 'N');
 }
 
+
+/**
+ * function addTranslation adds a pair of language and translation to an already existing entry
+ * 
+ * @param dictionary - array of struct
+ * @param entryCount - total number of struct 
+ */
 void addTranslation(Entry dictionary[], int entryCount)
 {
     String20 language;
@@ -322,6 +381,12 @@ void addTranslation(Entry dictionary[], int entryCount)
     }
 }
 
+/**
+ *  function displayAll displays all the entries in the array of struct dictionary
+ * 
+ * @param dictionary - array of struct
+ * @param entryCount - total number of struct in dictionary
+ */
 void displayAll(Entry dictionary[], int entryCount)
 {
     int i, j;
@@ -420,6 +485,12 @@ void displayAll(Entry dictionary[], int entryCount)
     }
 }
 
+/**
+ * function modifyEntry modifies an already existing entry
+ * @param dictionary - array of struct
+ * @param entryCount - total number of struct in dictionary
+ */
+
 void modifyEntry(Entry dictionary[], int entryCount)
 {
     int response;
@@ -499,6 +570,12 @@ void modifyEntry(Entry dictionary[], int entryCount)
     } while (exit == 0);
 }
 
+/**
+ * function deleteTranslation deletes a translation in an entry
+ * @param dictionary - array of struct
+ * @param entryCount - total nubmer of struct in dictionary
+ * 
+ */
 void deleteTranslation(Entry dictionary[], int *entryCount)
 {
     int response;
@@ -540,6 +617,13 @@ void deleteTranslation(Entry dictionary[], int *entryCount)
     }
 }
 
+/**
+ * function deleteEntry deletes whole entry together with the language-translation pairs if given
+ * @param dictionary - array of struct
+ * @param entryCount - total nubmer of struct in dictionary
+ *
+ */
+
 void deleteEntry(Entry dictionary[], int *entryCount)
 {
 
@@ -563,6 +647,12 @@ void deleteEntry(Entry dictionary[], int *entryCount)
     (*entryCount)--;
     printf("ENTRY DELETED!\n");
 }
+/**
+ * function searchWord searches and displays ALL THE ENTRIES with the given translation
+ * @param dictionary - array of struct
+ * @param entryCount - total nubmer of struct in dictionary
+ *
+ */
 
 void searchWord(Entry dictionary[], int entryCount)
 {
@@ -597,7 +687,12 @@ void searchWord(Entry dictionary[], int entryCount)
         displayAll(dictionaryTemp, nfound);
     }
 }
-
+/**
+ * function searchTranslation searches and displays ALL THE ENTRIES with the given language and translation pairs
+ * @param dictionary - array of struct
+ * @param entryCount - total nubmer of struct in dictionary
+ *
+ */
 void searchTranslation(Entry dictionary[], int entryCount)
 {
     int i, j;
@@ -632,7 +727,12 @@ void searchTranslation(Entry dictionary[], int entryCount)
         displayAll(dictionaryTemp, count);
     }
 }
-
+/**
+ * function exportFile EXPORTS FILE WITH ALL THE 
+ * @param dictionary - array of struct
+ * @param entryCount - total nubmer of struct in dictionary
+ *
+ */
 void exportFile(Entry dictionary[], int entryCount)
 {
     FILE *fp;
