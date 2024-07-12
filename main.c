@@ -4,6 +4,7 @@ int main()
 {
     Entry dictionary[MAX_ENTRIES];
     int entryCount = 0;
+    int exit = 0;
     char choice;
 
     do
@@ -15,6 +16,7 @@ int main()
         switch (choice)
         {
         case '1':
+            printf("\e[1;1H\e[2J");
             manageData(dictionary, &entryCount);
             break;
         case '2':
@@ -22,12 +24,13 @@ int main()
             break;
         case '3':
             printf("Exiting... Goodbye!\n");
+            exit = 123;
             break;
         default:
             printf("Invalid choice. Please try again.\n");
             break;
         }
-    } while (choice != '1' && choice != '2' && choice != '3');
+    } while (exit == 0);
 
     return 0;
 }

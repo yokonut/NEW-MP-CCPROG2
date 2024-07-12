@@ -4,12 +4,12 @@ learned. We have constructed the functions and their respective algorithms and c
 program was run, tested, and debugged by our own efforts. We further certify that we have not copied in part or whole or
 otherwise plagiarized the work of other students and/or persons.
  KO YOHAN, DLSU ID# 11849020
- SOPHIA ILUSTRE, DLSU ID# 
+ SOPHIA ILUSTRE, DLSU ID#
 *********************************************************************************************************/
 
 #include "declaration.h"
 
-/*  
+/*
     Display for Main Menu
 
 */
@@ -69,8 +69,8 @@ void languageToolMenu()
 
 /**
  *  function manageData scans the user's choice of option in the manageData menu
- * 
- * 
+ *
+ *
  * @param dictionary - contains an array of struct
  * @param entryCount  - contains the total number of entries
  */
@@ -81,62 +81,82 @@ void manageData(Entry dictionary[], int *entryCount)
     {
         manageDataMenu();
         scanf("%d", &manageChoice);
-        printf("\n");
         switch (manageChoice)
         {
         case 1:
+            printf("\e[1;1H\e[2J");
             addEntry(dictionary, entryCount);
             break;
         case 2:
+            printf("\e[1;1H\e[2J");
             if (*entryCount > 0)
                 addTranslation(dictionary, *entryCount);
             else
-                printf("NO ENTRY");
+                printf("NO ENTRY\n");
             break;
         case 3:
+            printf("\e[1;1H\e[2J");
             if (*entryCount > 0)
                 modifyEntry(dictionary, *entryCount);
             else
-                printf("NO ENTRY");
+                printf("NO ENTRY\n");
             break;
         case 4:
+            printf("\e[1;1H\e[2J");
             if (*entryCount > 0)
                 deleteEntry(dictionary, entryCount);
             else
-                printf("NO ENTRY");
+                printf("NO ENTRY\n");
             break;
         case 5:
+            printf("\e[1;1H\e[2J");
             if (*entryCount > 0)
                 deleteTranslation(dictionary, entryCount);
             else
-                printf("NO ENTRY");
+                printf("NO ENTRY\n");
             break;
         case 6:
-            displayAll(dictionary, *entryCount);
+            printf("\e[1;1H\e[2J");
+            if (*entryCount > 0)
+                displayAll(dictionary, *entryCount);
+            else
+                printf("NO ENTRY\n");
             break; // Back to Main Menu
         case 7:
-            searchWord(dictionary, *entryCount);
+            printf("\e[1;1H\e[2J");
+            if (*entryCount > 0)
+                searchWord(dictionary, *entryCount);
+            else
+                printf("NO ENTRY\n");
             break; // Back to Main Menu
         case 8:
-            searchTranslation(dictionary, *entryCount);
+            printf("\e[1;1H\e[2J");
+            if (*entryCount > 0)
+                searchTranslation(dictionary, *entryCount);
+            else
+                printf("NO ENTRY\n");
             break; // Back to Main Menu
         case 9:
-            exportFile(dictionary, *entryCount);
+            printf("\e[1;1H\e[2J");
+            if (*entryCount > 0)
+                exportFile(dictionary, *entryCount);
+            else
+                printf("NO ENTRY\n");
             break;
         case 10:
-            return; // Back to Main Menu
+            break;
         case 11:
-            return; // Back to Main Menu
+            return;
         default:
             printf("Invalid choice. Please try again.\n");
             break;
         }
-    } while (manageChoice != 1234);
+    } while (manageChoice != 11);
 }
 
 /**
  * function displayEntry only display ONE of the entry
- * 
+ *
  * @param dictionary - a struct containing all the pairs and count
  */
 void displayEntry(Entry dictionary)
@@ -145,12 +165,13 @@ void displayEntry(Entry dictionary)
 
     for (i = 0; i < dictionary.count; i++)
     {
+
         printf("%d. Language: %s, Translation: %s\n", i + 1, dictionary.pairs[i].language, dictionary.pairs[i].translation);
     }
 }
 
 /**
- *  the function sort entry sorts all the pairs according ALPHABETICALLY 
+ *  the function sort entry sorts all the pairs according ALPHABETICALLY
  * @param dictionary - array of struct
  */
 void sortEntry(Entry dictionary[])
@@ -180,7 +201,7 @@ void sortEntry(Entry dictionary[])
 
 /**
  * function checkEntry checks if an existing entry is in the array of struct
- * 
+ *
  * @param dictionary - array of struct
  * @param entryCount - total number of struct in dictionary
  * @param language - string to search in dictionary
@@ -207,7 +228,7 @@ int checkEntry(Entry dictionary[], int entryCount, String20 language, String20 t
 
 /**
  * function addEntry adds new entry to the array of struct dictionary[]
- * 
+ *
  * @param dictionary - array of struct
  * @param entryCount - total number of struct in dictionary
  */
@@ -231,9 +252,7 @@ void addEntry(Entry dictionary[], int *entryCount)
 
     if (totalFound > 0)
     {
-        printf("=====================================\n");
         printf("ENTRY ALREADY EXISTS\n");
-        printf("=====================================\n");
         for (i = 0; i < totalFound; i++)
         {
             printf("ENTRY %d:\n", i + 1);
@@ -280,7 +299,6 @@ void addEntry(Entry dictionary[], int *entryCount)
     do
     {
         scanf(" %c", &response);
-        printf("\n");
         if (response != 'y' && response != 'Y' && response != 'n' && response != 'N')
             printf("INVALID RESONSE ENTER AGAIN!!\n");
         else
@@ -296,12 +314,11 @@ void addEntry(Entry dictionary[], int *entryCount)
     } while (response != 'y' && response != 'Y' && response != 'n' && response != 'N');
 }
 
-
 /**
  * function addTranslation adds a pair of language and translation to an already existing entry
- * 
+ *
  * @param dictionary - array of struct
- * @param entryCount - total number of struct 
+ * @param entryCount - total number of struct
  */
 void addTranslation(Entry dictionary[], int entryCount)
 {
@@ -326,10 +343,7 @@ void addTranslation(Entry dictionary[], int entryCount)
 
     if (totalFound == 0)
     {
-        printf("=====================================\n");
-        printf("No entry found with the given language and translation\n");
-        printf("Please use the ADD ENTRY OPTION (1)\n");
-        printf("=====================================\n");
+        printf("No entry found please use the ADD ENTRY OPTION (1)\n");
     }
     else
     {
@@ -375,6 +389,7 @@ void addTranslation(Entry dictionary[], int entryCount)
             }
             else if (response == 'y' || response == 'Y')
             {
+
                 addTranslation(dictionary, entryCount);
             }
         } while (response != 'y' && response != 'Y' && response != 'n' && response != 'N');
@@ -383,7 +398,7 @@ void addTranslation(Entry dictionary[], int entryCount)
 
 /**
  *  function displayAll displays all the entries in the array of struct dictionary
- * 
+ *
  * @param dictionary - array of struct
  * @param entryCount - total number of struct in dictionary
  */
@@ -402,6 +417,7 @@ void displayAll(Entry dictionary[], int entryCount)
     {
         while (exit == 0)
         {
+            printf("\e[1;1H\e[2J");
             printf("ENTRY %d out of %d: \n", page + 1, entryCount);
             sortEntry(&dictionary[page]);
             displayEntry(dictionary[page]);
@@ -501,9 +517,8 @@ void modifyEntry(Entry dictionary[], int entryCount)
     String20 newTrans;
 
     displayAll(dictionary, entryCount);
-    printf("Enter # of entry you want to edit : ");
+    printf("\nEnter # of entry you want to edit : ");
     scanf("%d", &response);
-    printf("\n");
 
     if (response < 0 || response > entryCount)
     {
@@ -514,7 +529,7 @@ void modifyEntry(Entry dictionary[], int entryCount)
         do
         {
             displayEntry(dictionary[response - 1]);
-            printf("Enter # of pair to modify\n");
+            printf("Enter # of pair to modify: ");
             scanf("%d", &response2);
             printf("\n");
             if (response > dictionary[response - 1].count && response < 0)
@@ -574,7 +589,7 @@ void modifyEntry(Entry dictionary[], int entryCount)
  * function deleteTranslation deletes a translation in an entry
  * @param dictionary - array of struct
  * @param entryCount - total nubmer of struct in dictionary
- * 
+ *
  */
 void deleteTranslation(Entry dictionary[], int *entryCount)
 {
@@ -711,7 +726,7 @@ void searchTranslation(Entry dictionary[], int entryCount)
     {
         for (j = 0; j < dictionary[i].count; j++)
         {
-            if (strcmp(dictionary[i].pairs[0].language, language) == 0 && strcmp(dictionary[i].pairs[0].translation, translation) == 0)
+            if (strcmp(dictionary[i].pairs[j].language, language) == 0 && strcmp(dictionary[i].pairs[j].translation, translation) == 0)
             {
                 dictionaryTemp[count] = dictionary[i];
                 count++;
@@ -728,7 +743,7 @@ void searchTranslation(Entry dictionary[], int entryCount)
     }
 }
 /**
- * function exportFile EXPORTS FILE WITH ALL THE 
+ * function exportFile EXPORTS FILE WITH ALL THE
  * @param dictionary - array of struct
  * @param entryCount - total nubmer of struct in dictionary
  *
