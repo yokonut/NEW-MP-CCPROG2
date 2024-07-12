@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_ENTRIES 100
-#define MAX_LANG_LEN 50
-#define MAX_TRANS_LEN 50
+#define MAX_ENTRIES 150
+#define MAX_LANG_LEN 20
+#define MAX_TRANS_LEN 20
 #define MAX_PAIRS 10
 
 typedef char String20[20];
+typedef char String30[30];
 
 typedef struct
 {
@@ -16,7 +17,7 @@ typedef struct
 
 typedef struct
 {
-    TranslationPair pairs[MAX_PAIRS];
+    TranslationPair pairs[10];
     int count;
 } Entry;
 
@@ -33,3 +34,6 @@ void sortEntry(Entry *dictionary);
 void modifyEntry(Entry dictionary[], int entryCount);
 void deleteTranslation(Entry dictionary[], int *entryCount);
 void deleteEntry(Entry dictionary[], int *entryCount);
+void searchWord(Entry dictionary[], int entryCount);
+void searchTranslation(Entry dictionary[], int entryCount);
+void exportFile(Entry dictionary[], int entryCount);

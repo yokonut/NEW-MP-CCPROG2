@@ -88,11 +88,14 @@ void manageData(Entry dictionary[], int *entryCount)
             displayAll(dictionary, *entryCount);
             break; // Back to Main Menu
         case 7:
-            return; // Back to Main Menu
+            searchWord(dictionary, *entryCount);
+            break; // Back to Main Menu
         case 8:
-            return; // Back to Main Menu
+            searchTranslation(dictionary, *entryCount);
+            break; // Back to Main Menu
         case 9:
-            return; // Back to Main Menu
+            exportFile(dictionary,*entryCount);
+            break;
         case 10:
             return; // Back to Main Menu
         case 11:
@@ -334,7 +337,7 @@ void displayAll(Entry dictionary[], int entryCount)
     {
         while (exit == 0)
         {
-            printf("ENTRY %d: \n", page + 1);
+            printf("ENTRY %d out of %d: \n", page + 1, entryCount);
             sortEntry(&dictionary[page]);
             displayEntry(dictionary[page]);
             if (page == 0 && entryCount > 1)
@@ -564,7 +567,12 @@ void deleteEntry(Entry dictionary[], int *entryCount)
 void searchWord(Entry dictionary[], int entryCount)
 {
     String20 word;
+    char response;
     int i, j;
+    int found[entryCount];
+    int nfound = 0;
+    Entry dictionaryTemp[entryCount];
+
     printf("Enter word to search: ");
     scanf("%s", word);
 
@@ -574,10 +582,79 @@ void searchWord(Entry dictionary[], int entryCount)
         {
             if (strcmp(dictionary[i].pairs[j].translation, word) == 0)
             {
-                displayEntry(dictionary[i]);
+                dictionaryTemp[nfound] = dictionary[i];
+                nfound++;
             }
         }
     }
+
+    if (nfound == 0)
+    {
+        printf("NO DATA FOUND D:\n");
+    }
+    else
+    {
+        displayAll(dictionaryTemp, nfound);
+    }
+}
+
+void searchTranslation(Entry dictionary[], int entryCount)
+{
+    int i, j;
+    int count = 0;
+    String20 language;
+    String20 translation;
+    int indexFound[entryCount];
+    Entry dictionaryTemp[entryCount];
+
+    printf("Enter Language to search: ");
+    scanf("%s", language);
+    printf("Enter Translation to search");
+    scanf("%s", translation);
+
+    for (i = 0; i < entryCount; i++)
+    {
+        for (j = 0; j < dictionary[i].count; j++)
+        {
+            if (strcmp(dictionary[i].pairs[0].language, language) == 0 && strcmp(dictionary[i].pairs[0].translation, translation) == 0)
+            {
+                dictionaryTemp[count] = dictionary[i];
+                count++;
+            }
+        }
+    }
+    if (count == 0)
+    {
+        printf("NO DATA FOUND D:\n");
+    }
+    else
+    {
+        displayAll(dictionaryTemp, count);
+    }
+}
+
+void exportFile(Entry dictionary[], int entryCount)
+{
+    FILE *fp;
+    String30 filename;
+    int i, j;
+    char cDump;
+
+    printf("\n[EXPORT]\n\n");
+    printf("Enter filename:");
+    scanf("%c", &cDump);
+    fgets(filename, sizeof(filename), stdin); // allow multiple strings as a filename
+    filename[strlen(filename) - 1] = '\0';    // assign the last element as NULL
+
+    fp = fopen(filename, "w"); // open file with write file mode
+    for (i = 0; i < entryCount; i++)
+    {
+        for (j = 0; j < dictionary[i].count; j++)
+            fprintf(fp, "%s: %s\n", dictionary[i].pairs[j].language,
+                    dictionary[i].pairs[j].translation); // write the contents of array of entries to the text file
+        fprintf(fp, "\n");
+    }
+    fclose(fp); // close the file
 }
 
 // ALMOST DONE ASLDKJFLASKDJFLAKSDJFLKSDFJ
