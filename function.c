@@ -70,7 +70,8 @@ void manageData(Entry dictionary[], int *entryCount)
             deleteEntry(dictionary, entryCount);
             break;
         case 5:
-            return; // Back to Main Menu
+            deleteTranslation(dictionary, entryCount);
+            break;
         case 6:
             displayAll(dictionary, *entryCount);
             break; // Back to Main Menu
@@ -443,7 +444,7 @@ void modifyEntry(Entry dictionary[], int entryCount)
         }
 }
 
-void deleteEntry(Entry dictionary[], int *entryCount)
+void deleteTranslation(Entry dictionary[], int *entryCount)
 {
     int response;
     int response2;
@@ -474,9 +475,33 @@ void deleteEntry(Entry dictionary[], int *entryCount)
 
         dictionary[response - 1].pairs[response2 - 1] = dictionary[response - 1].pairs[response2];
         dictionary[response - 1].count--;
-        sortEntry(&dictionary[response -1]);
-        printf("removed!!");
+        sortEntry(&dictionary[response - 1]);
+        printf("removed!!\n");
     }
 }
 
-//ALMOST DONE ASLDKJFLASKDJFLAKSDJFLKSDFJ
+void deleteEntry(Entry dictionary[], int *entryCount)
+{
+
+    int response;
+    int response2;
+    char response3;
+    String20 newLang;
+    String20 newTrans;
+
+    do
+    {
+        displayAll(dictionary, *entryCount);
+        printf("Enter # of entry you want to delete : ");
+        scanf("%d", &response);
+        printf("\n");
+        if (response < 0 || response > *entryCount)
+            printf("WRONG INPUT! \n");
+    } while (response < 0 || response > *entryCount);
+
+    dictionary[response -1] = dictionary[*entryCount];
+    (*entryCount)--;
+    printf("ENTRY DELETED!\n");
+}
+
+// ALMOST DONE ASLDKJFLASKDJFLAKSDJFLKSDFJ

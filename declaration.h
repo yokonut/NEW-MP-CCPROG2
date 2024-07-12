@@ -33,6 +33,7 @@ void manageData(Entry dictionary[], int *entryCount);
 void displayAll(Entry dictionary[], int entryCount);
 void sortEntry(Entry dictionary[]);
 void modifyEntry(Entry *dictionary, int entryCount);
+void deleteTranslation(Entry dictionary[], int *entryCount);
 void deleteEntry(Entry dictionary[], int *entryCount);
 
 
