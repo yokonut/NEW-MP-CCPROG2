@@ -61,16 +61,28 @@ void manageData(Entry dictionary[], int *entryCount)
             addEntry(dictionary, entryCount);
             break;
         case 2:
-            addTranslation(dictionary, *entryCount);
+            if (*entryCount > 0)
+                addTranslation(dictionary, *entryCount);
+            else
+                printf("NO ENTRY");
             break;
         case 3:
-            modifyEntry(dictionary, *entryCount);
+            if (*entryCount > 0)
+                modifyEntry(dictionary, *entryCount);
+            else
+                printf("NO ENTRY");
             break;
         case 4:
-            deleteEntry(dictionary, entryCount);
+            if (*entryCount > 0)
+                deleteEntry(dictionary, entryCount);
+            else
+                printf("NO ENTRY");
             break;
         case 5:
-            deleteTranslation(dictionary, entryCount);
+            if (*entryCount > 0)
+                deleteTranslation(dictionary, entryCount);
+            else
+                printf("NO ENTRY");
             break;
         case 6:
             displayAll(dictionary, *entryCount);
@@ -89,7 +101,7 @@ void manageData(Entry dictionary[], int *entryCount)
             printf("Invalid choice. Please try again.\n");
             break;
         }
-    } while (manageChoice != 5);
+    } while (manageChoice != 1234);
 }
 
 void displayEntry(Entry dictionary)
@@ -325,7 +337,7 @@ void displayAll(Entry dictionary[], int entryCount)
             printf("ENTRY %d: \n", page + 1);
             sortEntry(&dictionary[page]);
             displayEntry(dictionary[page]);
-            if (page == 0)
+            if (page == 0 && entryCount > 1)
             {
                 printf("ENTER [N] NEXT [X] EXIT : ");
                 scanf(" %c", &response);
@@ -344,32 +356,47 @@ void displayAll(Entry dictionary[], int entryCount)
                     printf("INVALID INPUT!\n");
                 }
             }
-            else if (page < entryCount - 1)
+            else if (page > 0 && page < entryCount - 1)
             {
-                printf("ENTER [P] PREVIOUS [N] NEXT [X] EXIT : ");
+                printf("ENTER [N] NEXT [P] PREVIOUS [X] EXIT : ");
                 scanf(" %c", &response);
                 printf("\n");
                 switch (response)
                 {
-                case 'p':
-                case 'P':
-                    page--;
-                    break;
                 case 'n':
                 case 'N':
                     page++;
                     break;
+                case 'p':
+                case 'P':
+                    page--;
+                    break;
                 case 'x':
                 case 'X':
-                    exit = 124;
+                    exit = 1123;
                     break;
                 default:
                     printf("INVALID INPUT!\n");
                 }
             }
-            else
+            else if (page == 0 && entryCount == 1)
             {
-                printf("ENTER [P] PREVIOUS [X] EXIT");
+                printf("ENTER [X] EXIT :");
+                scanf(" %c", &response);
+                printf("\n");
+                switch (response)
+                {
+                case 'x':
+                case 'X':
+                    exit = 123;
+                    break;
+                default:
+                    printf("INVALID INPUT!\n");
+                }
+            }
+            else if (page == entryCount - 1)
+            {
+                printf("ENTER [P] PREVIOUS [X] EXIT : ");
                 scanf(" %c", &response);
                 printf("\n");
                 switch (response)
@@ -380,7 +407,7 @@ void displayAll(Entry dictionary[], int entryCount)
                     break;
                 case 'x':
                 case 'X':
-                    exit = 124123;
+                    exit = 1123;
                     break;
                 default:
                     printf("INVALID INPUT!\n");
@@ -395,6 +422,7 @@ void modifyEntry(Entry dictionary[], int entryCount)
     int response;
     int response2;
     char response3;
+    int exit = 0;
     String20 newLang;
     String20 newTrans;
 
@@ -429,35 +457,56 @@ void modifyEntry(Entry dictionary[], int entryCount)
         printf("MODIFIED!! :D \n");
     }
 
-    printf("Do you want to modify another entry? (Y/N) : ");
-    scanf(" %c", &response3);
+    do
+    {
+        printf("Do you want to modify another pair? (Y/N) : ");
+        scanf(" %c", &response3);
 
-    while (response3 != 'n' || response3 != 'N')
         switch (response3)
         {
         case 'y':
         case 'Y':
-            modifyEntry(dictionary, entryCount);
+            do
+            {
+                displayEntry(dictionary[response - 1]);
+                printf("Enter # of pair to modify\n");
+                scanf("%d", &response2);
+                printf("\n");
+                if (response > dictionary[response - 1].count && response < 0)
+                    printf("WRONG INPUT\n");
+            } while (response2 > dictionary[response - 1].count && response2 < 0);
+
+            printf("Enter new Language for pair # %d :", response2);
+            scanf("%s", newLang);
+            printf("Enter new Translation for pair # %d :", response2);
+            scanf("%s", newTrans);
+
+            strcpy(dictionary[response - 1].pairs[response2 - 1].language, newLang);
+            strcpy(dictionary[response - 1].pairs[response2 - 1].translation, newTrans);
+            printf("MODIFIED!! :D \n");
+            break;
+        case 'n':
+        case 'N':
+            exit = 123;
             break;
         default:
-            printf("INVALID INPUT! >:( \n");
+            printf("INVALID INPUT!\n");
         }
+
+    } while (exit == 0);
 }
 
 void deleteTranslation(Entry dictionary[], int *entryCount)
 {
     int response;
     int response2;
-    char response3;
-    String20 newLang;
-    String20 newTrans;
 
     displayAll(dictionary, *entryCount);
     printf("Enter # of entry you want to edit : ");
     scanf("%d", &response);
     printf("\n");
 
-    if (response < 0 || response > *entryCount)
+    if (response <= 0 || response > *entryCount)
     {
         printf("WRONG INPUT :( \n");
     }
@@ -466,17 +515,25 @@ void deleteTranslation(Entry dictionary[], int *entryCount)
         do
         {
             displayEntry(dictionary[response - 1]);
-            printf("Enter # of pair to delete! \n");
+            printf("Enter # of pair to delete :");
             scanf("%d", &response2);
             printf("\n");
-            if (response > dictionary[response - 1].count && response < 0)
+            if (response2 > dictionary[response - 1].count || response2 <= 0)
                 printf("WRONG INPUT\n");
-        } while (response2 > dictionary[response - 1].count && response2 < 0);
+        } while (response2 > dictionary[response - 1].count || response2 <= 0);
 
-        dictionary[response - 1].pairs[response2 - 1] = dictionary[response - 1].pairs[response2];
+        for (int i = response2 - 1; i < dictionary[response - 1].count - 1; i++)
+        {
+            dictionary[response - 1].pairs[i] = dictionary[response - 1].pairs[i + 1];
+        }
         dictionary[response - 1].count--;
-        sortEntry(&dictionary[response - 1]);
-        printf("removed!!\n");
+
+        if (dictionary[response - 1].count == 0)
+        {
+            dictionary[response - 1] = dictionary[*entryCount - 1];
+            (*entryCount)--;
+        }
+        printf("Translation pair deleted!\n");
     }
 }
 
@@ -499,9 +556,28 @@ void deleteEntry(Entry dictionary[], int *entryCount)
             printf("WRONG INPUT! \n");
     } while (response < 0 || response > *entryCount);
 
-    dictionary[response -1] = dictionary[*entryCount];
+    dictionary[response - 1] = dictionary[*entryCount - 1];
     (*entryCount)--;
     printf("ENTRY DELETED!\n");
+}
+
+void searchWord(Entry dictionary[], int entryCount)
+{
+    String20 word;
+    int i, j;
+    printf("Enter word to search: ");
+    scanf("%s", word);
+
+    for (i = 0; i < entryCount; i++)
+    {
+        for (j = 0; j < dictionary[i].count; j++)
+        {
+            if (strcmp(dictionary[i].pairs[j].translation, word) == 0)
+            {
+                displayEntry(dictionary[i]);
+            }
+        }
+    }
 }
 
 // ALMOST DONE ASLDKJFLASKDJFLAKSDJFLKSDFJ
