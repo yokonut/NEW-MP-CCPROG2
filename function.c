@@ -772,4 +772,32 @@ void exportFile(Entry dictionary[], int entryCount)
     fclose(fp); // close the file
 }
 
+void languageTool()
+{
+	int langChoice;
+	
+	do
+	{
+		languageToolMenu();		//display menu
+		scanf("%d", &langChoice);
+		
+		switch(langChoice)
+		{
+			case 1:				//identify main language
+				printf("success");
+				break;
+			case 2:					//simple translation
+				printf("sucess");
+				break;
+			case 3:					//exit
+				return;
+			default:
+            	printf("Invalid choice. Please try again.\n");
+            	break;
+		}	
+		
+	} while (langChoice != 3);
+	
+}
+
 // ALMOST DONE ASLDKJFLASKDJFLAKSDJFLKSDFJ
