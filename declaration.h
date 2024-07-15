@@ -37,3 +37,5 @@ void deleteEntry(Entry dictionary[], int *entryCount);
 void searchWord(Entry dictionary[], int entryCount);
 void searchTranslation(Entry dictionary[], int entryCount);
 void exportFile(Entry dictionary[], int entryCount);
+void importFile();
+void languageTool();            //add parameters

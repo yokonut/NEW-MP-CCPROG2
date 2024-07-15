@@ -20,7 +20,7 @@ int main()
             manageData(dictionary, &entryCount);
             break;
         case '2':
-            languageToolMenu();
+            languageTool();     //add parameters
             break;
         case '3':
             printf("Exiting... Goodbye!\n");

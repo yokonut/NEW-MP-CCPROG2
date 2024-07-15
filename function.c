@@ -772,6 +772,34 @@ void exportFile(Entry dictionary[], int entryCount)
     fclose(fp); // close the file
 }
 
+/**
+ * function import File IMPORTS DATA 
+ * @param dictionary - array of struct
+ * @param entryCount - total nubmer of struct in dictionary
+ *
+ */
+ void importFile()          //add to menu - will test tom
+ {
+    FILE *fp;  
+    String20 file_name;
+
+    printf("\n[EXPORT]\n\n");
+    printf("Enter filename:");
+    scanf("%s", file_name);                //ask for file name
+    //fopen
+
+    //IS THERE CURRENT DATA
+    //*yes
+            //verify one by one
+    //*no
+
+
+    fclose(fp);
+
+
+ }
+
+
 void languageTool()
 {
 	int langChoice;
