@@ -21,6 +21,11 @@ typedef struct
     int count;
 } Entry;
 
+struct langTag {
+    String20 iLanguage
+    int nWord;                  //number of times it appears in phrase
+};
+
 void displayMainMenu();
 void manageDataMenu();
 void languageToolMenu();

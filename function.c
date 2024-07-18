@@ -818,6 +818,24 @@ void exportFile(Entry dictionary[], int entryCount)
 
  }
 
+/**
+ * function identifyLanguage identifies main language of string 
+ * @param dictionary - array of struct
+ * @param entryCount - total nubmer of struct in dictionary
+ *
+ */
+
+void identifyLanguage()
+{
+    //ask for phrase
+    //take in phrase
+    
+    //tokenize
+    
+    //LF 
+    //adjust count
+    //erase 
+}
 
 void languageTool()
 {
