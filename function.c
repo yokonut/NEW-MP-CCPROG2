@@ -778,7 +778,7 @@ void exportFile(Entry dictionary[], int entryCount)
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
- void importFile()          //add to menu - will test tom
+ void importFile(int *entryCount)          //add to menu - will test tom
  {
     FILE *fp;  
     String20 file_name;
@@ -796,21 +796,25 @@ void exportFile(Entry dictionary[], int entryCount)
 
     //SORT FIRST? - Based on the last note in the Export, do not assume that each entry in the file to be imported are already sorted.
 
-    //IS THERE CURRENT DATA
+    //*IS THERE CURRENT DATA
 	if(*entryCount == 0)			                                //no entries yet
 	{
-		
-	} 
-    else                                                            //there are previous entries
+		while(!feof(fp) && *entryCount < MAX_ENTRIES)           //keep going while eof not reached + entry count not yet exceeded
+        {
+        //just list everything
+        }
+	} else                                                          //there r previous entries
     {
-
+        //verify 1 by 1
     }
-    //*there are entries
-            //verify one by one
-    //*no previous entries
+
+
+    if(*entryCount == MAX_ENTRIES)           //max entries exceeded
+    {
+        printf("MAX ENTRIES");
+    }
 
     fclose(fp);
-
 
  }
 
