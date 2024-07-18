@@ -786,13 +786,28 @@ void exportFile(Entry dictionary[], int entryCount)
     printf("\n[EXPORT]\n\n");
     printf("Enter filename:");
     scanf("%s", file_name);                //ask for file name
-    //fopen
+
+    fp = fopen(file_name, "r");             //fopen
+    if(fp == NULL)                          //error handling
+    {
+        printf("ERROR OPENING FILE.");
+        exit(1);
+    }
+
+    //SORT FIRST? - Based on the last note in the Export, do not assume that each entry in the file to be imported are already sorted.
 
     //IS THERE CURRENT DATA
-    //*yes
-            //verify one by one
-    //*no
+	if(*entryCount == 0)			                                //no entries yet
+	{
+		
+	} 
+    else                                                            //there are previous entries
+    {
 
+    }
+    //*there are entries
+            //verify one by one
+    //*no previous entries
 
     fclose(fp);
 
