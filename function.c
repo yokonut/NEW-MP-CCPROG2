@@ -819,6 +819,17 @@ void exportFile(Entry dictionary[], int entryCount)
  }
 
 /**
+ * function tokenize
+ *
+ */
+void tokenize()
+{
+    //ask for phrase
+    //take in phrase
+    //tokenize
+}
+
+/**
  * function identifyLanguage identifies main language of string 
  * @param dictionary - array of struct
  * @param entryCount - total nubmer of struct in dictionary
@@ -827,14 +838,20 @@ void exportFile(Entry dictionary[], int entryCount)
 
 void identifyLanguage()
 {
-    //ask for phrase
-    //take in phrase
-    
-    //tokenize
-    
     //LF 
     //adjust count
     //erase 
+}
+
+/**
+ * function identifyLanguage identifies main language of string 
+ * @param dictionary - array of struct
+ * @param entryCount - total nubmer of struct in dictionary
+ *
+ */
+void simpleTranslation()
+{
+
 }
 
 void languageTool()
@@ -854,7 +871,7 @@ void languageTool()
 			case 2:					//simple translation
 				printf("sucess");
 				break;
-			case 3:					//exit
+			case 3:					//exit - everything should be cleared
 				return;
 			default:
             	printf("Invalid choice. Please try again.\n");
