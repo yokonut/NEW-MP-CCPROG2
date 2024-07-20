@@ -824,9 +824,42 @@ void exportFile(Entry dictionary[], int entryCount)
  */
 void tokenize()
 {
-    //ask for phrase
-    //take in phrase
-    //tokenize
+
+    String30 tokens [MAX_ENTRIES];      //array of tokens - max_entries?
+
+    int token_i = 0;
+    int i = 0;
+    int j = 0;
+    
+
+    while (origphrase[i] != '/0')     //for the letters in new arr
+    {
+        if ( (origphrase[i] <= 'A' && origphrase[i] <= 'Z') || (origphrase[i] <= 'a' && origphrase[i] <= 'z'))  //is a letter
+        {
+            tokens[token_i][j++] == origphrase[i];
+        }
+        else                        //not a letter - TEST FOR "hi, there!""
+        {
+            tokens[token_index][j] = '\0';      //null terminate token
+            //sequence modifications
+            token_index++;
+            j = 0;
+            //prevent overflow?
+        }
+        i++;
+    }
+
+    /* error handling?
+    if (j > 0)
+    {
+        tokens[token_index][j] = '\0';
+    }
+    else if (token_index == 0)  // If no token is found, set the first token to an empty string
+    {
+        tokens[token_index][0] = '\0';
+    }
+    */
+
 }
 
 /**
