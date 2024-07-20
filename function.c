@@ -825,12 +825,15 @@ void exportFile(Entry dictionary[], int entryCount)
  */
 void tokenize(String150 origphrase)
 {
+    //make sure it deals with SPACES and EXPRESSIONS
+
 
     String30 tokens [MAX_ENTRIES];      //array of tokens - max_entries?
 
-    int token_i = 0;
-    int i = 0;
-    int j = 0;
+    int token_i = 0;	//token number
+    int i = 0;		//orig phrase letter
+    int j = 0;		//token letter
+    int k = 0;		//initializing empty strings
     
 
     while (origphrase[i] != '\0')     //for the letters in new arr
@@ -848,8 +851,21 @@ void tokenize(String150 origphrase)
         }
         i++;
     }
+    
+    
+	//ERROR HANDLING
+    if (j > 0)  // Handle the last token if it wasn't terminated
+    {
+        tokens[token_i][j] = '\0';
+    }
 
-    /* error handling?
+    for (k = token_i + 1; k < MAX_ENTRIES; k++)
+    {
+        tokens[k][0] = '\0';
+    } 
+
+    /*
+    ERROR HANDLING: 
     if (j > 0)
     {
         tokens[token_index][j] = '\0';
@@ -861,6 +877,7 @@ void tokenize(String150 origphrase)
     */
     
     /*
+    FOR TESTING: 
     for (int i = 0; i < MAX_ENTRIES && tokens[i][0] != '\0'; i++)
     {
         printf("Token %d: %s\n", i, tokens[i]);
@@ -880,7 +897,7 @@ void identifyLanguage()
 {
 	String150 origphrase;
 	
-	scanf("%s", &origphrase);       //taking in spaces
+	fgets(origphrase, 150, stdin);
 	tokenize(origphrase);
 
     //LF 
