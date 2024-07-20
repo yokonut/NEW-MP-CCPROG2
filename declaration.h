@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX_ENTRIES 150
 #define MAX_LANG_LEN 20

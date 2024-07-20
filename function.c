@@ -833,17 +833,16 @@ void tokenize(String150 origphrase)
     int j = 0;
     
 
-    while (origphrase[i] != '/0')     //for the letters in new arr
+    while (origphrase[i] != '\0')     //for the letters in new arr
     {
-        if ( (origphrase[i] <= 'A' && origphrase[i] <= 'Z') || (origphrase[i] <= 'a' && origphrase[i] <= 'z'))  //is a letter
+        if ( (origphrase[i] >= 'A' && origphrase[i] <= 'Z') || (origphrase[i] >= 'a' && origphrase[i] <= 'z'))  //is a letter
         {
-            tokens[token_i][j++] == origphrase[i];
+            tokens[token_i][j++] = origphrase[i];
         }
         else                        //not a letter - TEST FOR "hi, there!""
         {
-            tokens[token_index][j] = '\0';      //null terminate token
-            //sequence modifications
-            token_index++;
+            tokens[token_i][j] = '\0';      //null terminate token
+            token_i++;						//sequence modifications
             j = 0;
             //prevent overflow?
         }
@@ -860,6 +859,13 @@ void tokenize(String150 origphrase)
         tokens[token_index][0] = '\0';
     }
     */
+    
+    /*
+    for (int i = 0; i < MAX_ENTRIES && tokens[i][0] != '\0'; i++)
+    {
+        printf("Token %d: %s\n", i, tokens[i]);
+    }
+    */
 
 }
 
@@ -872,6 +878,11 @@ void tokenize(String150 origphrase)
 
 void identifyLanguage()
 {
+	String150 origphrase;
+	
+	scanf("%s", &origphrase);       //taking in spaces
+	tokenize(origphrase);
+
     //LF 
     //adjust count
     //erase 
