@@ -827,7 +827,7 @@ void exportFile(Entry dictionary[], int entryCount)
 int tokenize(String150 origphrase)
 {
     //make sure it deals with SPACES and EXPRESSIONS
-
+    //make sure it returns correct no of tokens
 
     String30 tokens [MAX_ENTRIES];      //array of tokens - max_entries?
 
@@ -888,6 +888,31 @@ int tokenize(String150 origphrase)
 }
 
 /**
+ * function matchTranslation checks if an existing entry is in the array of struct
+ * returns index of language in langTag struct
+ * @param dictionary - array of struct
+ * @param entryCount - total number of struct in dictionary
+ * @param language - string to search in dictionary
+ * @param translation - string to search in dictinonary
+ * @param indexFound - array of integers which stores the found indicies
+ */
+
+int matchTranslation(Entry dictionary[], int entryCount, /*struct langTag*/, int lang_index, int i, int j)
+{
+    int k;
+
+    for (k = 0; k < lang_index; k++)
+    {
+        if (strcmp(dictionary[i].pairs[j].language, langTag[k].iLanguage) == 0)
+        {
+            return k;
+        }
+    }
+
+    return -1;
+}
+
+/**
  * function identifyLanguage identifies main language of string 
  * @param dictionary - array of struct
  * @param entryCount - total nubmer of struct in dictionary
@@ -902,33 +927,59 @@ void identifyLanguage()
 	fgets(origphrase, 150, stdin);
 	t_size = tokenize(origphrase);
 
+    int lang_count = 0;
+    int lang_index = 0;
+    struct langTag[MAX_LAN_LEN];
+    int max = 0;
 
-    //match tokens with language
-    //adjust count
-    //erase 
-    for(i = 0; i < entryCount && flag_found == 0; i++)
+    for(i = 0; i < entryCount; i++)
     {
 	    for (j = 0; j < dictionary[i].count; j++)			//what is dictionary count
         {
 		    for(tokens_i = 0; tokens_i < t_size; tokens_i++)		//< or <=
 		    {
-			    if( strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0)      //FOUND
-			    {
-				//get language
-				//need a language count
+			    if( strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0)      //FOUND - mahal 
+			    {       //dictionary[i].pairs[j].language                         //get language
+                    lang_index = matchTranslation(dictionary, entryCount, /*struct langTag*/, lang_count, i, j)
+                
+                //*1: language is logged na
+                    if(lang_index != -1)                    //log new language in langtag
+                    {
+                        strcpy(langTag[lang_count].iLanguage, dictionary[i].pairs[j].language)
+                        langTag[lang_count].nWord++;
+                        lang_count++;
+                    }
+                //*2: first instance of language 
+                    if(lang_index != -1)
+                    {
+                        langTag[lang_index].nWord++;
+                    }
 			    }
-                //DOES NOT EXIST IN DICTIONARY
+                //DOES NOT EXIST IN DICTIONARY - just keep going
 		    }
         }
     }
 
-    //1 LANGUAGE
-    //TIE W ANOTHER LANGUAGE
+        //erase ???????
+
+    for(i = 0; i < lang_index - 1; i++)
+    {
+        for(j = i + 1; j < lang_index; j++)
+        {
+            if(langTag[j].nWord > langTag[i].nWord)
+            {
+                max = j;
+            }
+        }
+    }
+    //what if tie w another lanuage
+
+    printf("The main language of text: %s is %s", origphrase, langTag[j].iLanguage);
 
 }
 
 /**
- * function identifyLanguage identifies main language of string 
+ * function simpleTranslation identifies main language of string 
  * @param dictionary - array of struct
  * @param entryCount - total nubmer of struct in dictionary
  *
