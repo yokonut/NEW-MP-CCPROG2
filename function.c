@@ -818,11 +818,12 @@ void exportFile(Entry dictionary[], int entryCount)
 
  }
 
-/**
+/*
  * function tokenize
- *
+ * @param origphrase - phrase to be tokenized
+ * 
  */
-void tokenize()
+void tokenize(String150 origphrase)
 {
 
     String30 tokens [MAX_ENTRIES];      //array of tokens - max_entries?

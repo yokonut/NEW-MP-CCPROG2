@@ -8,6 +8,7 @@
 
 typedef char String20[20];
 typedef char String30[30];
+typedef char String150[150];
 
 typedef struct
 {
