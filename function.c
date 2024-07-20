@@ -785,7 +785,8 @@ void exportFile(Entry dictionary[], int entryCount)
 
     printf("\n[EXPORT]\n\n");
     printf("Enter filename:");
-    scanf("%s", file_name);                //ask for file name
+    fgets(origphrase, 150, stdin);      //ask for file name
+    //scanf("%s", file_name);                
 
     fp = fopen(file_name, "r");             //fopen
     if(fp == NULL)                          //error handling
@@ -819,11 +820,11 @@ void exportFile(Entry dictionary[], int entryCount)
  }
 
 /*
- * function tokenize
+ * function tokenize returns number of tokens in phrase
  * @param origphrase - phrase to be tokenized
  * 
  */
-void tokenize(String150 origphrase)
+int tokenize(String150 origphrase)
 {
     //make sure it deals with SPACES and EXPRESSIONS
 
@@ -896,13 +897,34 @@ void tokenize(String150 origphrase)
 void identifyLanguage()
 {
 	String150 origphrase;
+    int t_size;
 	
 	fgets(origphrase, 150, stdin);
-	tokenize(origphrase);
+	t_size = tokenize(origphrase);
 
-    //LF 
+
+    //match tokens with language
     //adjust count
     //erase 
+    for(i = 0; i < entryCount && flag_found == 0; i++)
+    {
+	    for (j = 0; j < dictionary[i].count; j++)			//what is dictionary count
+        {
+		    for(tokens_i = 0; tokens_i < t_size; tokens_i++)		//< or <=
+		    {
+			    if( strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0)      //FOUND
+			    {
+				//get language
+				//need a language count
+			    }
+                //DOES NOT EXIST IN DICTIONARY
+		    }
+        }
+    }
+
+    //1 LANGUAGE
+    //TIE W ANOTHER LANGUAGE
+
 }
 
 /**
@@ -913,6 +935,10 @@ void identifyLanguage()
  */
 void simpleTranslation()
 {
+	String150 origphrase;
+	
+	fgets(origphrase, 150, stdin);
+	tokenize(origphrase);
 
 }
 
