@@ -1024,30 +1024,33 @@ void simpleTranslation(entryCount)
             {
                 if (strcmp(dictionary[i].pairs[j].language, sourcelang) == 0 && strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0)    // Found the phrase in the source language
                 {
-                    //replace
-                    flag = 1;
+                    for (int k = 0; k < dictionary[i].count; k++)
+                    {
+                        if (    strcmp(dictionary[i].pairs[k].language, destLang) == 0)
+                        {
+                            strcat(transphrase, " ");
+                            strcat(transphrase, dictionary[i].pairs[k].translation);  // Append the translation
+                            flag = 1;
+                            //break;
+                        }
+                    }
                 }
                 else if ((i == entryCount - 1) && (j == dictionary[i].count - 1) && (flag == 0))        // No phrase in the source language
                 {
-                    //keep the normal one
+                    strcat(transphrase, " ");
+                    strcat(transphrase, tokens[tokens_i]);       //keep the orig one
                 }
             }
         }
     }
 
-    /*
-                    for (int k = 0; k < dictionary[i].count; k++)               //
-                    {
-                        if (strcmp(dictionary[i].pairs[k].language, destLang) == 0) 
-                        {
-                        return dictionary[i].pairs[k].translation;  // Return the translation in the destination language
-                        }
-                    }
-    */
 
     //CLEAR DATA
 
     flag = 0;           //reset flag to use again
+
+    //DISPLAY
+    printf("\nThe translated phrase is: %s", transphrase);
 
     while(flag == 0)            //ASK IF THEY WANT AGAIN
     {
