@@ -919,8 +919,10 @@ int matchTranslation(Entry dictionary[], int entryCount, /*struct langTag*/, int
  *
  */
 
-void identifyLanguage()
+void identifyLanguage(entryCount)
 {
+    printf("IDENTIFY LANGUAGE\n");
+
 	String150 origphrase;
     int t_size;
 	
@@ -960,8 +962,6 @@ void identifyLanguage()
         }
     }
 
-        //erase ???????
-
     for(i = 0; i < lang_index - 1; i++)
     {
         for(j = i + 1; j < lang_index; j++)
@@ -973,8 +973,13 @@ void identifyLanguage()
         }
     }
     //what if tie w another lanuage
+    //if none of the words are found in the array of entries, like “mi casa su casa”, then the result is a message to say that it cannot determine the language.]
 
-    printf("The main language of text: %s is %s", origphrase, langTag[j].iLanguage);
+    printf("The main language of text: %s is %s", origphrase, langTag[max].iLanguage);
+
+    //erase
+
+    languageTool();     //go back to language processing menu
 
 }
 
@@ -984,15 +989,92 @@ void identifyLanguage()
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
-void simpleTranslation()
+void simpleTranslation(entryCount)
 {
+    char sourcelang [MAX_LANG_LEN];         //INPUT DECLARATION
+    char destlang [MAX_LANG_LEN];
 	String150 origphrase;
+    String150 transphrase;      //OUTPUT DECLARATION
+    int i, j, tokens_i;
+    int flag = 0;
 	
+    printf("SIMPLE TRANSLATION\n");
+
+    //GET INPUTS
+    printf("Translate from: ");
+    fgets(sourcelang, MAX_LANG_LEN, stdin);
+
+    printf("Translate to: ");
+    fgets(destlang, MAX_LANG_LEN, stdin);
+
+    printf("Input phrase/sentence to translate: ")
 	fgets(origphrase, 150, stdin);
 	tokenize(origphrase);
+``
+    /*
+    dictionary[0].pairs[0].language, "English"
+    dictionary[0].pairs[0].translation, word
+    */
+
+    for (int i = 0; i < entryCount; i++)            //find translation pair
+    {
+        for (int j = 0; j < dictionary[i].count; j++) 
+        {
+            for(tokens_i = 0; tokens_i < t_size; tokens_i++)
+            {
+                if (strcmp(dictionary[i].pairs[j].language, sourcelang) == 0 && strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0)    // Found the phrase in the source language
+                {
+                    //replace
+                    flag = 1;
+                }
+                else if ((i == entryCount - 1) && (j == dictionary[i].count - 1) && (flag == 0))        // No phrase in the source language
+                {
+                    //keep the normal one
+                }
+            }
+        }
+    }
+
+    /*
+                    for (int k = 0; k < dictionary[i].count; k++)               //
+                    {
+                        if (strcmp(dictionary[i].pairs[k].language, destLang) == 0) 
+                        {
+                        return dictionary[i].pairs[k].translation;  // Return the translation in the destination language
+                        }
+                    }
+    */
+
+    //CLEAR DATA
+
+    flag = 0;           //reset flag to use again
+
+    while(flag == 0)            //ASK IF THEY WANT AGAIN
+    {
+        printf("Would you like to go back to translate again? [Y/N]\n");
+        scanf("%c", &choice);
+        if(choice == 'Y' || choice == 'y')
+        {
+            flag = 1;
+            simpleTranslation();
+        }
+        else if(choice == 'N' || choice == 'n')
+        {
+            flag = 1;
+            languageTool();     //go back to language processing menu
+        }
+        else 
+        {
+            printf("INVALID OPTION. try again.");
+        }
+    }
 
 }
 
+/**
+ * function languageTool displays choices in Language Tool Menu
+ *
+ */
 void languageTool()
 {
 	int langChoice;
@@ -1020,5 +1102,3 @@ void languageTool()
 	} while (langChoice != 3);
 	
 }
-
-// ALMOST DONE ASLDKJFLASKDJFLAKSDJFLKSDFJ
