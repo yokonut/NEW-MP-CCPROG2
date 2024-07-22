@@ -24,7 +24,7 @@ typedef struct
 } Entry;
 
 struct langTag {
-    String20 iLanguage
+    String20 iLanguage;
     int nWord;                  //number of times it appears in phrase
 };
 
@@ -44,5 +44,19 @@ void deleteEntry(Entry dictionary[], int *entryCount);
 void searchWord(Entry dictionary[], int entryCount);
 void searchTranslation(Entry dictionary[], int entryCount);
 void exportFile(Entry dictionary[], int entryCount);
+//add parameters
+void importFile(Entry dictionary[], int *entryCount);
+int tokenize(char origphrase[], char tokens[MAX_TOKENS][MAX_TRANS_LEN]);
+int matchTranslation(Entry dictionary[], int entryCount, struct langTag langTags[], int lang_count, int i, int j);
+void identifyLanguage(Entry dictionary[], int entryCount);
+void simpleTranslation(Entry dictionary[], int entryCount);
+void languageTool();
+
+/*
 void importFile();
-void languageTool();            //add parameters
+int tokenize(String150 origphrase);
+int matchTranslation(Entry dictionary[], int entryCount, /*struct langTag, int lang_index, int i, int j);
+void identifyLanguage(entryCount);
+void simpleTranslation(entryCount);
+void languageTool();           
+*/

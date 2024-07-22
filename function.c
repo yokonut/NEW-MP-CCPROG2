@@ -824,12 +824,10 @@ void exportFile(Entry dictionary[], int entryCount)
  * @param origphrase - phrase to be tokenized
  * 
  */
-int tokenize(String150 origphrase)
+int tokenize(String150 *origphrase, String30 tokens[MAX_ENTRIES])
 {
     //make sure it deals with SPACES and EXPRESSIONS
     //make sure it returns correct no of tokens
-
-    String30 tokens [MAX_ENTRIES];      //array of tokens - max_entries?
 
     int token_i = 0;	//token number
     int i = 0;		//orig phrase letter
@@ -865,26 +863,6 @@ int tokenize(String150 origphrase)
         tokens[k][0] = '\0';
     } 
 
-    /*
-    ERROR HANDLING: 
-    if (j > 0)
-    {
-        tokens[token_index][j] = '\0';
-    }
-    else if (token_index == 0)  // If no token is found, set the first token to an empty string
-    {
-        tokens[token_index][0] = '\0';
-    }
-    */
-    
-    /*
-    FOR TESTING: 
-    for (int i = 0; i < MAX_ENTRIES && tokens[i][0] != '\0'; i++)
-    {
-        printf("Token %d: %s\n", i, tokens[i]);
-    }
-    */
-
 }
 
 /**
@@ -897,15 +875,15 @@ int tokenize(String150 origphrase)
  * @param indexFound - array of integers which stores the found indicies
  */
 
-int matchTranslation(Entry dictionary[], int entryCount, /*struct langTag*/, int lang_index, int i, int j)
+int matchTranslation(struct langTag ltags[], int lang_count, const char *language)
 {
-    int k;
+    int i;
 
-    for (k = 0; k < lang_index; k++)
+    for (i = 0; i < lang_count	/*or lang_count*/; i++)
     {
-        if (strcmp(dictionary[i].pairs[j].language, langTag[k].iLanguage) == 0)
+        if (strcmp(language, ltags[i].iLanguage) == 0)
         {
-            return k;
+            return i;
         }
     }
 
@@ -919,45 +897,52 @@ int matchTranslation(Entry dictionary[], int entryCount, /*struct langTag*/, int
  *
  */
 
-void identifyLanguage(entryCount)
+void identifyLanguage(Entry dictionary[], int entryCount)
 {
     printf("IDENTIFY LANGUAGE\n");
-
+	
+    struct langTag ltags[MAX_LANG_LEN];
+	
+	int i, j, k;
+	int tokens_i;
+	
 	String150 origphrase;
     int t_size;
+    String30 tokens[MAX_ENTRIES];			//SURE?
 	
 	fgets(origphrase, 150, stdin);
-	t_size = tokenize(origphrase);
+	origphrase[strcspn(origphrase, "\n")] = '\0';		//is this allowed
+	t_size = tokenize(origphrase, tokens);
 
     int lang_count = 0;
     int lang_index = 0;
-    struct langTag[MAX_LAN_LEN];
     int max = 0;
 
     for(i = 0; i < entryCount; i++)
     {
 	    for (j = 0; j < dictionary[i].count; j++)			//what is dictionary count
         {
-		    for(tokens_i = 0; tokens_i < t_size; tokens_i++)		//< or <=
+		    for(tokens_i = 0; tokens_i < t_size; tokens_i++)
 		    {
 			    if( strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0)      //FOUND - mahal 
-			    {       //dictionary[i].pairs[j].language                         //get language
-                    lang_index = matchTranslation(dictionary, entryCount, /*struct langTag*/, lang_count, i, j)
+			    {       //get language
+			    	lang_index = matchTranslation(ltags, lang_count, dictionary[i].pairs[j].language);
+                    //lang_index = matchTranslation(dictionary, langTag f, entryCount, lang_count, i, j)
                 
                 //*1: language is logged na
                     if(lang_index != -1)                    //log new language in langtag
                     {
-                        strcpy(langTag[lang_count].iLanguage, dictionary[i].pairs[j].language)
-                        langTag[lang_count].nWord++;
+                        strcpy(ltags[lang_count].iLanguage, dictionary[i].pairs[j].language);
+                        ltags[lang_count].nWord++;
                         lang_count++;
                     }
                 //*2: first instance of language 
-                    if(lang_index != -1)
+                    else if(lang_index != -1)
                     {
-                        langTag[lang_index].nWord++;
+                        ltags[lang_index].nWord++;
                     }
 			    }
-                //DOES NOT EXIST IN DICTIONARY - just keep going
+                //*3: DOES NOT EXIST IN DICTIONARY - just keep going
 		    }
         }
     }
@@ -966,7 +951,7 @@ void identifyLanguage(entryCount)
     {
         for(j = i + 1; j < lang_index; j++)
         {
-            if(langTag[j].nWord > langTag[i].nWord)
+            if(ltags[j].nWord > ltags[i].nWord)
             {
                 max = j;
             }
@@ -975,7 +960,7 @@ void identifyLanguage(entryCount)
     //what if tie w another lanuage
     //if none of the words are found in the array of entries, like “mi casa su casa”, then the result is a message to say that it cannot determine the language.]
 
-    printf("The main language of text: %s is %s", origphrase, langTag[max].iLanguage);
+    printf("The main language of text: %s is %s", origphrase, ltags[max].iLanguage);
 
     //erase
 
@@ -1010,11 +995,6 @@ void simpleTranslation(entryCount)
     printf("Input phrase/sentence to translate: ")
 	fgets(origphrase, 150, stdin);
 	tokenize(origphrase);
-``
-    /*
-    dictionary[0].pairs[0].language, "English"
-    dictionary[0].pairs[0].translation, word
-    */
 
     for (int i = 0; i < entryCount; i++)            //find translation pair
     {
