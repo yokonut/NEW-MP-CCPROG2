@@ -877,6 +877,8 @@ int tokenize(String150 origphrase, String30 tokens[MAX_ENTRIES])
 
 int matchTranslation(struct langTag ltags[], int lang_count, const char *language)
 {
+    //make sure it returns correct index
+
     int i;
 
     for (i = 0; i < lang_count	/*or lang_count*/; i++)
@@ -908,7 +910,7 @@ void identifyLanguage(Entry dictionary[], int entryCount)
 	
 	String150 origphrase;
     int t_size;
-    String30 tokens[MAX_ENTRIES];			//SURE?
+    String30 tokens[MAX_ENTRIES];
 	
 	fgets(origphrase, 150, stdin);
 	origphrase[strcspn(origphrase, "\n")] = '\0';		//is this allowed
@@ -947,14 +949,11 @@ void identifyLanguage(Entry dictionary[], int entryCount)
         }
     }
 
-    for(i = 0; i < lang_index - 1; i++)
+    for (int i = 1; i < lang_count; i++) 
     {
-        for(j = i + 1; j < lang_index; j++)
+        if (ltags[i].nWord > ltags[max].nWord) 
         {
-            if(ltags[j].nWord > ltags[i].nWord)
-            {
-                max = j;
-            }
+            max = i;  // Update max
         }
     }
     //what if tie w another lanuage
@@ -962,7 +961,7 @@ void identifyLanguage(Entry dictionary[], int entryCount)
 
     printf("The main language of text: %s is %s", origphrase, ltags[max].iLanguage);
 
-    //erase
+    //erase - create clear function?
 
     languageTool(dictionary, entryCount);     //go back to language processing menu
 
@@ -974,14 +973,20 @@ void identifyLanguage(Entry dictionary[], int entryCount)
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
-void simpleTranslation(entryCount)
+void simpleTranslation(Entry dictionary[], int entryCount)
 {
     char sourcelang [MAX_LANG_LEN];         //INPUT DECLARATION
     char destlang [MAX_LANG_LEN];
 	String150 origphrase;
+	
     String150 transphrase;      //OUTPUT DECLARATION
+    
+    String30 tokens[MAX_ENTRIES];			//for tokenizing
+    int t_size = 0;							//no of tokens
     int i, j, tokens_i;
     int flag = 0;
+    
+    char choice;		//
 	
     printf("SIMPLE TRANSLATION\n");
 
@@ -992,9 +997,9 @@ void simpleTranslation(entryCount)
     printf("Translate to: ");
     fgets(destlang, MAX_LANG_LEN, stdin);
 
-    printf("Input phrase/sentence to translate: ")
+    printf("Input phrase/sentence to translate: ");
 	fgets(origphrase, 150, stdin);
-	tokenize(origphrase);
+	t_size = tokenize(origphrase, tokens);
 
     for (int i = 0; i < entryCount; i++)            //find translation pair
     {
@@ -1006,7 +1011,7 @@ void simpleTranslation(entryCount)
                 {
                     for (int k = 0; k < dictionary[i].count; k++)
                     {
-                        if (    strcmp(dictionary[i].pairs[k].language, destLang) == 0)
+                        if (    strcmp(dictionary[i].pairs[k].language, destlang) == 0)
                         {
                             strcat(transphrase, " ");
                             strcat(transphrase, dictionary[i].pairs[k].translation);  // Append the translation
@@ -1039,12 +1044,12 @@ void simpleTranslation(entryCount)
         if(choice == 'Y' || choice == 'y')
         {
             flag = 1;
-            simpleTranslation();
+            simpleTranslation(dictionary, entryCount);
         }
         else if(choice == 'N' || choice == 'n')
         {
             flag = 1;
-            languageTool();     //go back to language processing menu
+            languageTool(dictionary, entryCount);     //go back to language processing menu - is this automatic
         }
         else 
         {
@@ -1071,10 +1076,11 @@ void languageTool(Entry dictionary[], int entryCount)
 		switch(langChoice)
 		{
 			case 1:				//identify main language
-				identifyLanguage(dictionary, entryCount /*do i add addresss/pointer*/);
+				identifyLanguage(dictionary, entryCount);		//no & cos we wont edit
 				break;
 			case 2:					//simple translation
-				printf("sucess");			//automatically goes back to language tool menu after
+				simpleTranslation(dictionary, entryCount);
+				//printf("sucess");			//automatically goes back to language tool menu after
 				break;
 			case 3:					//exit - everything should be cleared
 				return;
