@@ -778,41 +778,67 @@ void exportFile(Entry dictionary[], int entryCount)
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
- void importFile(int *entryCount)          //add to menu - will test tom
+ void importFile(Entry dictionary[], int *entryCount)          //add to menu - will test tom
  {
     FILE *fp;  
     String20 file_name;
+    char cDump;
+    //wjat
+    int i = 0;
+    int j = 0; 
+    int dCount = 0;
 
-    printf("\n[EXPORT]\n\n");
+    printf("\n[IMPORT]\n\n");
     printf("Enter filename:");
     fgets(origphrase, 150, stdin);      //ask for file name
     //scanf("%s", file_name);                
 
     fp = fopen(file_name, "r");             //fopen
-    if(fp == NULL)                          //error handling
+    if(fp != NULL)                          //file exists
     {
+        if(*entryCount == 0)			                                //no entries yet
+	    {
+		    while(!feof(fp) && *entryCount < MAX_ENTRIES)           //keep going while eof not reached + entry count not yet exceeded
+            {       //just list everything
+                fscanf(fp, "%c", &cDump);
+
+                if(cDump != '\n' && cDump != EOF)
+                {
+                    getText()
+                    fscanf(fp, "%c", &cdump);
+                    dictionary[*entryCount].count++;    //equivalent of entry[*n].nPair++;
+                    j++;
+                    dCount = 0;
+                }
+                else if(cDump == '\n')
+                {
+                    dCount++;
+                }
+                if(dCount == 1)
+                {
+                    (*entryCount)++;
+                    j = 0;
+                }
+
+            }
+	    }
+
+        else if(*entryCount > 0)            //there are already existing entries
+        {
+//this whole thing
+        }
+    }
+    else
+    {           //file does not exist
         printf("ERROR OPENING FILE.");
-        exit(1);
     }
 
     //SORT FIRST? - Based on the last note in the Export, do not assume that each entry in the file to be imported are already sorted.
 
-    //*IS THERE CURRENT DATA
-	if(*entryCount == 0)			                                //no entries yet
-	{
-		while(!feof(fp) && *entryCount < MAX_ENTRIES)           //keep going while eof not reached + entry count not yet exceeded
-        {
-        //just list everything
-        }
-	} else                                                          //there r previous entries
-    {
-        //verify 1 by 1
-    }
 
-
-    if(*entryCount == MAX_ENTRIES)           //max entries exceeded
+    if(*entryCount == MAX_ENTRIES)    
     {
-        printf("MAX ENTRIES");
+        printf("MAX ENTRIES REACHED.\n");
     }
 
     fclose(fp);
