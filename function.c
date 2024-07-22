@@ -772,6 +772,8 @@ void exportFile(Entry dictionary[], int entryCount)
     fclose(fp); // close the file
 }
 
+//get text function
+
 /**
  * function import File IMPORTS DATA 
  * @param dictionary - array of struct
@@ -825,6 +827,39 @@ void exportFile(Entry dictionary[], int entryCount)
 
         else if(*entryCount > 0)            //there are already existing entries
         {
+            while(!feof(fp) && *n < 150)
+            {
+                fscanf(fp, "%c", &cDump);
+
+                if(cDump != '\n' && cDump != EOF)
+                {
+                    getText()
+                    fscanf(fp, "%c", &cdump);
+                    dictionary[*entryCount].count++;    //equivalent of entry[*n].nPair++;
+                    j++;
+                    dCount = 0;
+                }
+                else if(cDump == '\n')
+                {
+                    dCount++;
+                }
+
+                if(dCount == 1)
+                {
+                    j = 0;
+                    do
+                    {
+                        printf("\n");
+
+                        for (i = 0; i < dictionary[*entryCount].count; i++)
+                        {
+                            printf("%s: ")
+                            //add here
+                        }
+
+                    }
+                }
+            }
 //this whole thing
         }
     }
