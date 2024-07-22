@@ -824,7 +824,7 @@ void exportFile(Entry dictionary[], int entryCount)
  * @param origphrase - phrase to be tokenized
  * 
  */
-int tokenize(String150 *origphrase, String30 tokens[MAX_ENTRIES])
+int tokenize(String150 origphrase, String30 tokens[MAX_ENTRIES])
 {
     //make sure it deals with SPACES and EXPRESSIONS
     //make sure it returns correct no of tokens
@@ -964,7 +964,7 @@ void identifyLanguage(Entry dictionary[], int entryCount)
 
     //erase
 
-    languageTool();     //go back to language processing menu
+    languageTool(dictionary, entryCount);     //go back to language processing menu
 
 }
 
@@ -1058,9 +1058,10 @@ void simpleTranslation(entryCount)
  * function languageTool displays choices in Language Tool Menu
  *
  */
-void languageTool()
+void languageTool(Entry dictionary[], int entryCount)
 {
 	int langChoice;
+	//where to declare dictionary
 	
 	do
 	{
@@ -1070,10 +1071,10 @@ void languageTool()
 		switch(langChoice)
 		{
 			case 1:				//identify main language
-				printf("success");
+				identifyLanguage(dictionary, entryCount /*do i add addresss/pointer*/);
 				break;
 			case 2:					//simple translation
-				printf("sucess");
+				printf("sucess");			//automatically goes back to language tool menu after
 				break;
 			case 3:					//exit - everything should be cleared
 				return;

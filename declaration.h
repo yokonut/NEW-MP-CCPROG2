@@ -44,13 +44,13 @@ void deleteEntry(Entry dictionary[], int *entryCount);
 void searchWord(Entry dictionary[], int entryCount);
 void searchTranslation(Entry dictionary[], int entryCount);
 void exportFile(Entry dictionary[], int entryCount);
-//add parameters
+//MY PART
 void importFile(Entry dictionary[], int *entryCount);
-int tokenize(char origphrase[], char tokens[MAX_TOKENS][MAX_TRANS_LEN]);
-int matchTranslation(Entry dictionary[], int entryCount, struct langTag langTags[], int lang_count, int i, int j);
+int tokenize(char origphrase[], String30 tokens[MAX_ENTRIES]);			//char origphrase[] correct
+int matchTranslation(struct langTag ltags[], int lang_count, const char *language);
 void identifyLanguage(Entry dictionary[], int entryCount);
 void simpleTranslation(Entry dictionary[], int entryCount);
-void languageTool();
+void languageTool(Entry dictionary[], int entryCount);
 
 /*
 void importFile();
