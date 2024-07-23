@@ -1125,9 +1125,9 @@ identifyLanguage(Entry dictionary[],
 
     for (tokens_i = 0; tokens_i < t_size; tokens_i++)
     {
-        for (i = 0; i < entryCount; i++)
+        for (j = 0; j < entryCount; j++)
         {
-            for (j = 0; j < dictionary[i].count; j++)
+            for (k = 0; k < dictionary[i].count; k++)
             {
                 matchTranslation(ltags, lang_count, dictionary[i].pairs[j].language);
                 if ((strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) /*match word and token*/ && (lang_index != -1 /*exists*/)) // FOUND WORD- mahal
@@ -1159,11 +1159,10 @@ identifyLanguage(Entry dictionary[],
                         wDump++;
                     }
                 }
-            }
-
-            if(wDump > 0)
-            {
-                wCount++;
+                if(wDump > 0)
+                {
+                    wCount++;
+                }
             }
             ltags[i].nWord = wCount;
         }
