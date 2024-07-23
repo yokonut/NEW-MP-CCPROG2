@@ -773,7 +773,30 @@ void exportFile(Entry dictionary[], int entryCount)
     fclose(fp); // close the file
 }
 
-//get text function
+/**
+ * function import File IMPORTS DATA 
+ * @param dictionary - array of struct
+ * @param entryCount - total nubmer of struct in dictionary
+ *
+ */
+void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
+{
+    String20 sTemp, sLanguage, sTranslation;
+    char cDump;
+
+    fscanf(fp, "%s%c%s", sLanguage, &cDump, sTranslatiion);
+
+    if(sLanguage[strlen(sLanguage) - 1] == ':')
+    {
+        sLanguage[strlen(sLanguage) - 1] = '\0';
+    }
+
+    strcat(sTemp, sLanguage);
+    strcpy(*pLang, sTemp);
+    strcpy(*pTrans, sTranslation);
+
+}
+
 
 /**
  * function import File IMPORTS DATA 
@@ -786,14 +809,16 @@ void exportFile(Entry dictionary[], int entryCount)
     FILE *fp;  
     String20 file_name;
     char cDump;
-    //wjat
+    char response;
     int i = 0;
     int j = 0; 
     int dCount = 0;
 
     printf("\n[IMPORT]\n\n");
     printf("Enter filename:");
-    fgets(origphrase, 150, stdin);      //ask for file name
+    fgets(file_name, sizeof(file_name), stdin);      //ask for file name
+    filename[strlen(file_name) - 1] = '\0';
+
     //scanf("%s", file_name);                
 
     fp = fopen(file_name, "r");             //fopen
@@ -807,7 +832,7 @@ void exportFile(Entry dictionary[], int entryCount)
 
                 if(cDump != '\n' && cDump != EOF)
                 {
-                    getText()
+                    getText(fp, &dictionary[*entryCount].pairs[j].language, &dictionary[*entryCount].pairs[j].translation, cDump)
                     fscanf(fp, "%c", &cdump);
                     dictionary[*entryCount].count++;    //equivalent of entry[*n].nPair++;
                     j++;
