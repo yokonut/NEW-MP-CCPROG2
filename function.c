@@ -1110,6 +1110,9 @@ identifyLanguage(Entry dictionary[],
     int t_size;
     String20 tokens[MAX_ENTRIES];
     int len;
+
+    int lang_count = 0;
+    int match = 0;
     
     printf("[IDENTIFY LANGUAGE]\n");
 
@@ -1120,17 +1123,14 @@ identifyLanguage(Entry dictionary[],
         origphrase[len] = '\0';
     t_size = tokenize(origphrase, tokens);
 
-    int lang_count = 0;
-    int lang_index = 0;
-
     for (tokens_i = 0; tokens_i < t_size; tokens_i++)
     {
         for (j = 0; j < entryCount; j++)
         {
             for (k = 0; k < dictionary[i].count; k++)
             {
-                matchTranslation(ltags, lang_count, dictionary[i].pairs[j].language);
-                if ((strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) /*match word and token*/ && (lang_index != -1 /*exists*/)) // FOUND WORD- mahal
+                match = matchTranslation(ltags, lang_count, dictionary[i].pairs[j].language);
+                if ((strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) /*match word and token*/ && (match != -1 /*exists*/)) // FOUND WORD- mahal
                 {
                     strcpy(ltags[lang_count].iLanguage, dictionary[i].pairs[j].language);
                     ltags[lang_count].nWord++;
