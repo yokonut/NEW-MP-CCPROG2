@@ -737,7 +737,7 @@ void searchTranslation(Entry dictionary[],
 
     printf("Enter Language to search: ");
     scanf("%s", language);
-    printf("Enter Translation to search");
+    printf("Enter Translation to search: ");
     scanf("%s", translation);
 
     for (i = 0; i < entryCount; i++)
