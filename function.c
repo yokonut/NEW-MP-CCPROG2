@@ -1035,20 +1035,6 @@ void identifyLanguage(Entry dictionary[], int entryCount)
                     ltags[lang_count].nWord++;
                     lang_count++;
                 }
-
-                //*1: language is logged na
-                /*
-                    if(lang_index != -1)                    //FOUND LANGUAGE IN DICTIONARY
-                    {
-                        strcpy(ltags[lang_count].iLanguage, dictionary[i].pairs[j].language);
-                        ltags[lang_count].nWord++;
-                        lang_count++;
-                    }
-                    else
-                    {
-                        ltags[lang_index].nWord++;			//is this correcy
-                    }
-                */
             }
         }
     }
@@ -1059,15 +1045,38 @@ void identifyLanguage(Entry dictionary[], int entryCount)
     }
     else if (lang_count > 0)
     {
-        for (i = 1; i < lang_count; i++)
+        for (i = 0; i < lang_count; i++)
         {
-            if (ltags[i].nWord > ltags[max].nWord)
+            nwordCount = 0;
+            for (k = 0; k < t_size; k++)
             {
-                max = i; // Update max
-            }
-        }
+                if()
+                {
 
-        printf("The main language of text: %s is %s", origphrase, ltags[max].iLanguage);
+                }
+            }
+
+            if()//WCNTDMP
+        }
+            
+        if(lang_count > 1)
+            //sort language
+    
+        if(lang_count == 1)
+        {
+            printf("The main language of text: %s is %s", origphrase, ltags[0].iLanguage);
+        }
+        else if (lang_count > 1)
+        {
+            for (int i = 1; i < lang_count; i++) 
+            {
+                if (ltags[i].nWord > ltags[max].nWord) 
+                {
+                    max = i;  // Update max
+                }
+            }
+            printf("The main language of text: %s is %s", origphrase, ltags[max].iLanguage);
+        }
     }
 
     for (i = 0; i < lang_count /*IS THIS CPRRECT*/; i++) // ERASE EVERYTHING
@@ -1075,8 +1084,7 @@ void identifyLanguage(Entry dictionary[], int entryCount)
         ltags[i].nWord = '\0';
         strcpy(ltags[i].iLanguage, "");
     }
-
-    // languageTool(dictionary, entryCount);     //go back to language processing menu
+    
 }
 
 /**
@@ -1190,7 +1198,6 @@ void simpleTranslation(Entry dictionary[], int entryCount)
 void languageTool(Entry dictionary[], int entryCount)
 {
     int langChoice;
-    // where to declare dictionary
 
     do
     {
@@ -1207,7 +1214,6 @@ void languageTool(Entry dictionary[], int entryCount)
         case 2: // simple translation
             printf("\e[1;1H\e[2J");
             simpleTranslation(dictionary, entryCount);
-            // printf("sucess");			//automatically goes back to language tool menu after
             break;
         case 3: // exit - everything should be cleared
             return;
