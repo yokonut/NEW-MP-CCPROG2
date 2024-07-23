@@ -14,8 +14,7 @@ otherwise plagiarized the work of other students and/or persons.
 
 */
 
-void 
-displayMainMenu()
+void displayMainMenu()
 {
     printf("=====================================\n");
     printf("        Welcome to the Dictionary    \n");
@@ -30,8 +29,7 @@ displayMainMenu()
     Display for manage Date Menu
 
 */
-void 
-manageDataMenu()
+void manageDataMenu()
 {
 
     printf("=====================================\n");
@@ -56,8 +54,7 @@ manageDataMenu()
     Display for language tool Menu
 
 */
-void 
-languageToolMenu()
+void languageToolMenu()
 {
 
     printf("=====================================\n");
@@ -77,9 +74,8 @@ languageToolMenu()
  * @param dictionary - contains an array of struct
  * @param entryCount  - contains the total number of entries
  */
-void 
-manageData(Entry dictionary[], 
-            int *entryCount)
+void manageData(Entry dictionary[],
+                int *entryCount)
 {
     int manageChoice;
     do
@@ -166,8 +162,7 @@ manageData(Entry dictionary[],
  *
  * @param dictionary - a struct containing all the pairs and count
  */
-void 
-displayEntry(Entry dictionary)
+void displayEntry(Entry dictionary)
 {
     int i, j;
 
@@ -182,8 +177,7 @@ displayEntry(Entry dictionary)
  *  the function sort entry sorts all the pairs according ALPHABETICALLY
  * @param dictionary - array of struct
  */
-void 
-sortEntry(Entry dictionary[])
+void sortEntry(Entry dictionary[])
 {
     int i, j;
 
@@ -218,12 +212,11 @@ sortEntry(Entry dictionary[])
  * @param indexFound - array of integers which stores the found indicies
  */
 
-int 
-checkEntry(Entry dictionary[], 
-            int entryCount, 
-            String20 language, 
-            String20 translation, 
-            int indexFound[])
+int checkEntry(Entry dictionary[],
+               int entryCount,
+               String20 language,
+               String20 translation,
+               int indexFound[])
 {
     int i;
     int count = 0;
@@ -248,9 +241,8 @@ checkEntry(Entry dictionary[],
  * @param dictionary - array of struct
  * @param entryCount - total number of struct in dictionary
  */
-void 
-addEntry(Entry dictionary[], 
-            int *entryCount)
+void addEntry(Entry dictionary[],
+              int *entryCount)
 {
     String20 language;
     String20 translation;
@@ -338,9 +330,8 @@ addEntry(Entry dictionary[],
  * @param dictionary - array of struct
  * @param entryCount - total number of struct
  */
-void 
-addTranslation(Entry dictionary[], 
-                int entryCount)
+void addTranslation(Entry dictionary[],
+                    int entryCount)
 {
     String20 language;
     String20 translation;
@@ -422,9 +413,8 @@ addTranslation(Entry dictionary[],
  * @param dictionary - array of struct
  * @param entryCount - total number of struct in dictionary
  */
-void 
-displayAll(Entry dictionary[], 
-            int entryCount)
+void displayAll(Entry dictionary[],
+                int entryCount)
 {
     int i, j;
     int page = 0;
@@ -529,9 +519,8 @@ displayAll(Entry dictionary[],
  * @param entryCount - total number of struct in dictionary
  */
 
-void 
-modifyEntry(Entry dictionary[], 
-            int entryCount)
+void modifyEntry(Entry dictionary[],
+                 int entryCount)
 {
     int response;
     int response2;
@@ -615,9 +604,8 @@ modifyEntry(Entry dictionary[],
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
-void 
-deleteTranslation(Entry dictionary[], 
-                    int *entryCount)
+void deleteTranslation(Entry dictionary[],
+                       int *entryCount)
 {
     int response;
     int response2;
@@ -665,9 +653,8 @@ deleteTranslation(Entry dictionary[],
  *
  */
 
-void 
-deleteEntry(Entry dictionary[], 
-            int *entryCount)
+void deleteEntry(Entry dictionary[],
+                 int *entryCount)
 {
 
     int response;
@@ -697,9 +684,8 @@ deleteEntry(Entry dictionary[],
  *
  */
 
-void 
-searchWord(Entry dictionary[], 
-            int entryCount)
+void searchWord(Entry dictionary[],
+                int entryCount)
 {
     String20 word;
     char response;
@@ -738,9 +724,8 @@ searchWord(Entry dictionary[],
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
-void 
-searchTranslation(Entry dictionary[], 
-                    int entryCount)
+void searchTranslation(Entry dictionary[],
+                       int entryCount)
 {
     int i, j;
     int count = 0;
@@ -780,9 +765,8 @@ searchTranslation(Entry dictionary[],
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
-void 
-exportFile(Entry dictionary[], 
-            int entryCount)
+void exportFile(Entry dictionary[],
+                int entryCount)
 {
     FILE *fp;
     String30 filename;
@@ -813,11 +797,10 @@ exportFile(Entry dictionary[],
  * @param pTrans - string pointer
  *@param ch - imported character from file
  */
-void 
-getText(FILE *fp, 
-        String20 *pLang, 
-        String20 *pTrans, 
-        char ch)
+void getText(FILE *fp,
+             String20 *pLang,
+             String20 *pTrans,
+             char ch)
 {
     String20 sTemp, sLanguage, sTranslation;
     char cDump;
@@ -843,8 +826,7 @@ getText(FILE *fp,
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
-void 
-importFile(Entry dictionary[], 
+void importFile(Entry dictionary[],
                 int *entryCount)
 {
     FILE *fp;
@@ -894,7 +876,7 @@ importFile(Entry dictionary[],
 
         else if (*entryCount > 0) // there are already existing entries
         {
-            while(!feof(fp) && *entryCount < 150)
+            while (!feof(fp) && *entryCount < 150)
             {
                 fscanf(fp, "%c", &cDump);
 
@@ -965,9 +947,8 @@ importFile(Entry dictionary[],
  * @param origphrase - phrase to be tokenized
  * @param tokens[] - array of tokens derived from orig phrase
  */
-int 
-tokenize(String150 origphrase, 
-        String20 tokens[MAX_ENTRIES])
+int tokenize(String150 origphrase,
+             String20 tokens[MAX_ENTRIES])
 {
     int token_i = 0; // token index
     int i = 0;       // original phrase index
@@ -1005,181 +986,84 @@ tokenize(String150 origphrase,
 }
 
 /**
- * function matchTranslation returns index where language was found
- * returns index of language in langTag struct
- * @param ltags - array of struct
- * @param lang_count - total number of struct in dictionary
- * @param language - string to search in dictionary
- */
-
-int 
-matchTranslation(struct langTag ltags[], 
-                    int lang_count, 
-                    const char *language)
-{
-
-    int i;
-
-    for (i = 0; i < lang_count ; i++)
-    {
-        if (strcmp(language, ltags[i].iLanguage) == 0)
-        {
-            return i;
-        }
-    }
-
-    return -1;
-}
-
-/**
- * function sortDescending rearranges structs to sort based on descending nWord count
- * @param ltags - array of struct
- * @param lang_count - total nubmer of struct in ltags
- *
- */
-void 
-sortDescending(struct langTag ltags[], 
-                int lang_count)
-{
-  int i, j, min;
-  struct langTag lTemp;
-
-  for (i = 0; i < lang_count - 1; i++)
-  {
-    min = i;
-
-    for (j = i + 1; j < lang_count; j++)
-    {
-      if (ltags[min].nWord < ltags[j].nWord)
-        min = j;
-    }
-
-    if (i != min)
-    {
-      lTemp = ltags[i];
-      ltags[i] = ltags[min];
-      ltags[min] = lTemp;
-    }
-  }
-}
-
-/**
- * function seeMatch identifies main language of string
- * @param dictionary - array of struct
- * @param entryCount - total nubmer of struct in dictionary
- *
- */
-int 
-seeMatch(Entry dictionary[], 
-			int n, 
-			String20 sLang, 
-			String20 sTrans)
-{
-  int i;
-
-  for (i = 0; i < dictionary[n].count; i++)
-  {
-    if (strcmp(sLang, dictionary[n].pairs[i].language) == 0 &&
-        strcmp(sTrans, dictionary[n].pairs[i].translation) == 0) //checks if pair exists
-    {
-      return 1; //found
-    }
-  }
-  return 0; //not found
-}
-
-/**
  * function identifyLanguage identifies main language of string
  * @param dictionary - array of struct
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
 
-void 
-identifyLanguage(Entry dictionary[], 
-                int entryCount)
+void identifyLanguage(Entry dictionary[], int entryCount)
 {
+    langTag ltags[MAX_ENTRIES]; // Ensure enough space and initialization
 
-    struct langTag ltags[MAX_LANG_LEN];
-
-    int i, j, k, m;
-    int wCount, wDump;
-    int tokens_i;
+    int i, j, k, tokens_i;
+    int t_size;
+    int len;
+    int lang_count = 0;
+    int maxWords = 0;
+    int maxIndex = -1; // Initialize to -1 to detect no match
 
     String150 origphrase;
-    int t_size;
     String20 tokens[MAX_ENTRIES];
-    int len;
-
-    int lang_count = 0;
-    int match = 0;
-    
+    char cDump;
     printf("[IDENTIFY LANGUAGE]\n");
 
-    //get input 
-    fgets(origphrase, sizeof(origphrase), stdin);
+    // get input
+    scanf("%c", &cDump);
+    fgets(origphrase, sizeof(origphrase), stdin); // get phrase
     len = strlen(origphrase) - 1;
     if (origphrase[len] == '\n')
         origphrase[len] = '\0';
-    t_size = tokenize(origphrase, tokens);
+
+    t_size = tokenize(origphrase, tokens); // tokenize the phrase and get token size
 
     for (tokens_i = 0; tokens_i < t_size; tokens_i++)
     {
-        for (j = 0; j < entryCount; j++)
+        for (i = 0; i < entryCount; i++)
         {
-            for (k = 0; k < dictionary[i].count; k++)
+            for (j = 0; j < dictionary[i].count; j++)
             {
-                match = matchTranslation(ltags, lang_count, dictionary[i].pairs[j].language);
-                if ((strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) /*match word and token*/ && (match != -1 /*exists*/)) // FOUND WORD- mahal
+                if (strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) // If the word matches
                 {
-                    strcpy(ltags[lang_count].iLanguage, dictionary[i].pairs[j].language);
-                    ltags[lang_count].nWord++;
-                    lang_count++;
-                }
-            }
-        }
-    }
-
-    if (lang_count == 0) // if none of the words are found in the array of entries, like “mi casa su casa”, then the result is a message to say that it cannot determine the language.]
-    {
-        printf("CANNOT DETERMINE LANGUAGE.\n");
-    }
-    else if (lang_count > 0)
-    {
-        for(i = 0; i < lang_count; i++)
-        {
-            wCount = 0;
-            for (m = 0; m < t_size; m++)
-            {
-                wDump = 0;
-                for (j = 0; j < entryCount; j++)
-                {
-                    if(seeMatch(dictionary, j, ltags[i].iLanguage, tokens[m]) == 1)
+                    int found = 0;
+                    for (k = 0; k < lang_count; k++)
                     {
-                        wDump++;
+                        if (strcmp(ltags[k].iLanguage, dictionary[i].pairs[j].language) == 0)
+                        {
+                            ltags[k].nWord++;
+                            found = 1;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        strcpy(ltags[lang_count].iLanguage, dictionary[i].pairs[j].language);
+                        ltags[lang_count].nWord = 1;
+                        lang_count++;
                     }
                 }
-                if(wDump > 0)
-                {
-                    wCount++;
-                }
             }
-            ltags[i].nWord = wCount;
         }
-            
-        if(lang_count > 1)
-            sortDescending(ltags, lang_count);                 //sort language
-           
     }
 
-    printf("The main language of text: %s is %s", origphrase, ltags[0].iLanguage);
-
-    for (i = 0; i < lang_count /*IS THIS CPRRECT*/; i++) // ERASE EVERYTHING
+    // Find the language with the highest word count
+    for (i = 0; i < lang_count; i++)
     {
-        ltags[i].nWord = '\0';
-        strcpy(ltags[i].iLanguage, "");
+        if (ltags[i].nWord > maxWords)
+        {
+            maxWords = ltags[i].nWord;
+            maxIndex = i;
+        }
     }
 
+    if (maxIndex == -1)
+    {
+        printf("Cannot detect main language\n");
+    }
+    else
+    {
+        printf("The main language of text: \"%s\" is %s\n", origphrase, ltags[maxIndex].iLanguage);
+    }
 }
 
 /**
@@ -1188,9 +1072,7 @@ identifyLanguage(Entry dictionary[],
  * @param entryCount - total number of struct in dictionary
  *
  */
-void 
-simpleTranslation(Entry dictionary[], 
-                    int entryCount)
+void simpleTranslation(Entry dictionary[], int entryCount)
 {
     char sourcelang[MAX_LANG_LEN]; // INPUT DECLARATION
     char destlang[MAX_LANG_LEN];
@@ -1293,34 +1175,34 @@ simpleTranslation(Entry dictionary[],
  *@param dictionary - array of structs
  *@param entryCount - total number of struct in dictionary
  */
-void 
-languageTool(Entry dictionary[], 
-                int entryCount)
+void languageTool(Entry dictionary[],
+                  int entryCount)
 {
-    int langChoice;
+    char langChoice;
+    int exit =0;
 
     do
     {
-        printf("\e[1;1H\e[2J");
         languageToolMenu(); // display menu
-        scanf("%d", &langChoice);
+        scanf(" %c", &langChoice);
 
         switch (langChoice)
         {
-        case 1: // identify main language
+        case '1': // identify main language
             printf("\e[1;1H\e[2J");
-            identifyLanguage(dictionary, entryCount); // no & cos we wont edit
+            identifyLanguage(dictionary, entryCount); 
             break;
-        case 2: // simple translation
+        case '2': // simple translation
             printf("\e[1;1H\e[2J");
             simpleTranslation(dictionary, entryCount);
             break;
-        case 3: // exit - everything should be cleared
+        case '3': // exit - everything should be cleared
+            exit = 123;
             return;
         default:
             printf("Invalid choice. Please try again.\n");
             break;
         }
 
-    } while (langChoice != 3);
+    } while (exit == 0);
 }
