@@ -1090,12 +1090,6 @@ void identifyLanguage(Entry dictionary[], int entryCount)
     // Selection sort the ltags array in ascending order based on nWord
     selectionSort(ltags, lang_count);
 
-    // Print the sorted languages and their word counts
-    printf("\nLanguages sorted by word count:\n");
-    for (i = 0; i < lang_count; i++)
-    {
-        printf("%s: %d\n", ltags[i].iLanguage, ltags[i].nWord);
-    }
     printf("\n");
     // Print the top 3 languages
     if (lang_count > 0)
