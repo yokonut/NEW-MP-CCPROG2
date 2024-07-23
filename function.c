@@ -1099,7 +1099,6 @@ void
 identifyLanguage(Entry dictionary[], 
                 int entryCount)
 {
-    printf("[IDENTIFY LANGUAGE]\n");
 
     struct langTag ltags[MAX_LANG_LEN];
 
@@ -1111,17 +1110,18 @@ identifyLanguage(Entry dictionary[],
     int t_size;
     String20 tokens[MAX_ENTRIES];
     int len;
+    
+    printf("[IDENTIFY LANGUAGE]\n");
 
+    //get input 
     fgets(origphrase, sizeof(origphrase), stdin);
     len = strlen(origphrase) - 1;
     if (origphrase[len] == '\n')
         origphrase[len] = '\0';
-
     t_size = tokenize(origphrase, tokens);
 
     int lang_count = 0;
     int lang_index = 0;
-    int max = 0;
 
     for (tokens_i = 0; tokens_i < t_size; tokens_i++)
     {
