@@ -928,39 +928,36 @@ void importFile(Entry dictionary[], int *entryCount) // add to menu - will test 
  */
 int tokenize(String150 origphrase, String30 tokens[MAX_ENTRIES])
 {
-    // make sure it deals with SPACES and EXPRESSIONS
-    // make sure it returns correct no of tokens
+    int token_i = 0; // token index
+    int i = 0;       // original phrase index
+    int j = 0;       // token letter index
 
-    int token_i = 0; // token number
-    int i = 0;       // orig phrase letter
-    int j = 0;       // token letter
-    int k = 0;       // initializing empty strings
-
-    while (origphrase[i] != '\0') // for the letters in new arr
+    while (origphrase[i] != '\0' && token_i < MAX_ENTRIES)
     {
-        if ((origphrase[i] >= 'A' && origphrase[i] <= 'Z') || (origphrase[i] >= 'a' && origphrase[i] <= 'z')) // is a letter
+        if ((origphrase[i] >= 'A' && origphrase[i] <= 'Z') || (origphrase[i] >= 'a' && origphrase[i] <= 'z')) // Check if the character is a letter
         {
-            tokens[token_i][j++] = origphrase[i];
+            if (j < 30) // Ensure token does not exceed max length
+            {
+                tokens[token_i][j++] = origphrase[i];
+            }
         }
-        else // not a letter - TEST FOR "hi, there!""
+        else
         {
-            tokens[token_i][j] = '\0'; // null terminate token
-            token_i++;                 // sequence modifications
-            j = 0;
-            // prevent overflow?
+            if (j > 0) // End current token if we have collected any characters
+            {
+                tokens[token_i][j] = '\0'; // Null-terminate the token
+                token_i++;                 // Move to the next token
+                j = 0;                     // Reset token letter index
+            }
         }
         i++;
     }
 
-    // ERROR HANDLING
-    if (j > 0) // Handle the last token if it wasn't terminated
+    // Handle the last token if there was no trailing non-letter character
+    if (j > 0 && token_i < MAX_ENTRIES)
     {
         tokens[token_i][j] = '\0';
-    }
-
-    for (k = token_i + 1; k < MAX_ENTRIES; k++)
-    {
-        tokens[k][0] = '\0';
+        token_i++;
     }
 
     return token_i;
@@ -1088,84 +1085,97 @@ void simpleTranslation(Entry dictionary[], int entryCount)
 {
     char sourcelang[MAX_LANG_LEN]; // INPUT DECLARATION
     char destlang[MAX_LANG_LEN];
+
     String150 origphrase;
-
-    String150 transphrase; // OUTPUT DECLARATION
-
+    String150 transphrase;        // OUTPUT DECLARATION
     String30 tokens[MAX_ENTRIES]; // for tokenizing
-    int t_size = 0;               // no of tokens
-    int i, j, tokens_i;
-    int flag = 0;
 
-    char choice; //
+    int t_size = 0; // no of tokens
+    int i, j, index = 0, m;
+    int found;
+    int len;
+    char response;
+    char c;
+    int exit = 1;
 
     printf("SIMPLE TRANSLATION\n");
 
     // GET INPUTS
     printf("Translate from: ");
-    fgets(sourcelang, MAX_LANG_LEN, stdin);
+    scanf("%s", sourcelang);
 
     printf("Translate to: ");
-    fgets(destlang, MAX_LANG_LEN, stdin);
-
+    scanf("%s", destlang);
+    while ((c = getchar()) != '\n' && c != EOF)
+    {
+    }
     printf("Input phrase/sentence to translate: ");
+
     fgets(origphrase, 150, stdin);
+    len = strlen(origphrase) - 1;
+
+    if (origphrase[len] == '\n')
+        origphrase[len] = '\0';
+
     t_size = tokenize(origphrase, tokens);
 
-    for (int i = 0; i < entryCount; i++) // find translation pair
+    for (index = 0; index < t_size; index++)
     {
-        for (int j = 0; j < dictionary[i].count; j++)
+        int found = 0;
+        for (i = 0; i < entryCount && !found; i++)
         {
-            for (tokens_i = 0; tokens_i < t_size; tokens_i++)
+            for (j = 0; j < dictionary[i].count && !found; j++)
             {
-                if (strcmp(dictionary[i].pairs[j].language, sourcelang) == 0 && strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) // Found the phrase in the source language
+                if (strcmp(dictionary[i].pairs[j].language, sourcelang) == 0 && strcmp(dictionary[i].pairs[j].translation, tokens[index]) == 0)
                 {
-                    for (int k = 0; k < dictionary[i].count; k++)
+                    for (m = 0; m < dictionary[i].count && !found; m++)
                     {
-                        if (strcmp(dictionary[i].pairs[k].language, destlang) == 0)
+                        if (strcmp(dictionary[i].pairs[m].language, destlang) == 0)
                         {
+                            strcat(transphrase, dictionary[i].pairs[m].translation);
                             strcat(transphrase, " ");
-                            strcat(transphrase, dictionary[i].pairs[k].translation); // Append the translation
-                            flag = 1;
-                            // break;
+                            found = 1;
                         }
                     }
                 }
-                else if ((i == entryCount - 1) && (j == dictionary[i].count - 1) && (flag == 0)) // No phrase in the source language
-                {
-                    strcat(transphrase, " ");
-                    strcat(transphrase, tokens[tokens_i]); // keep the orig one
-                }
             }
         }
+        if (!found)
+        {
+            strcat(transphrase, tokens[index]);
+            strcat(transphrase, " ");
+        }
     }
 
-    // CLEAR DATA
+    // Remove trailing space
+    len = strlen(transphrase);
+    if (len > 0 && transphrase[len - 1] == ' ')
+        transphrase[len - 1] = '\0';
 
-    flag = 0; // reset flag to use again
+    printf("Translated phrase: %s\n", transphrase);
 
-    // DISPLAY
-    printf("\nThe translated phrase is: %s", transphrase);
-
-    while (flag == 0) // ASK IF THEY WANT AGAIN
+    do
     {
-        printf("Would you like to go back to translate again? [Y/N]\n");
-        scanf("%c", &choice);
-        if (choice == 'Y' || choice == 'y')
+        printf("Do you want to translate another phrase? : (Y/N)");
+        scanf(" %c", &response);
+
+        switch (response)
         {
-            flag = 1;
+        case 'y':
+        case 'Y':
             simpleTranslation(dictionary, entryCount);
+            break;
+
+        case 'n':
+        case 'N':
+            exit = 0;
+            break;
+
+        default:
+            printf("WRONG INPUT PLEASE TRY AGAIN >:(\n");
         }
-        else if (choice == 'N' || choice == 'n')
-        {
-            flag = 1;
-            languageTool(dictionary, entryCount); // go back to language processing menu - is this automatic
-        }
-        else
-        {
-            printf("INVALID OPTION. try again.");
-        }
-    }
+
+    } while (exit != 0);
 }
 
 /**
