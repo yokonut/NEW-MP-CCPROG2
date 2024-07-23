@@ -145,6 +145,7 @@ void manageData(Entry dictionary[], int *entryCount)
             break;
         case 10: // import
             printf("\e[1;1H\e[2J");
+            importFile(dictionary, entryCount);
             break;
         case 11:
             return;
@@ -957,6 +958,8 @@ int tokenize(String150 origphrase, String30 tokens[MAX_ENTRIES])
     {
         tokens[k][0] = '\0';
     }
+
+    return token_i;
 }
 
 /**
@@ -995,7 +998,7 @@ int matchTranslation(struct langTag ltags[], int lang_count, const char *languag
 
 void identifyLanguage(Entry dictionary[], int entryCount)
 {
-    printf("IDENTIFY LANGUAGE\n");
+    printf("[IDENTIFY LANGUAGE]\n");
 
     struct langTag ltags[MAX_LANG_LEN];
 
@@ -1020,42 +1023,47 @@ void identifyLanguage(Entry dictionary[], int entryCount)
         {
             for (tokens_i = 0; tokens_i < t_size; tokens_i++)
             {
-                if (strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) // FOUND - mahal
+                if (strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) // FOUND WORD- mahal
                 {                                                                      // get language
                     lang_index = matchTranslation(ltags, lang_count, dictionary[i].pairs[j].language);
                     // lang_index = matchTranslation(dictionary, langTag f, entryCount, lang_count, i, j)
 
                     //*1: language is logged na
-                    if (lang_index != -1) // log new language in langtag
+                    if (lang_index != -1) // FOUND LANGUAGE IN DICTIONARY
                     {
                         strcpy(ltags[lang_count].iLanguage, dictionary[i].pairs[j].language);
                         ltags[lang_count].nWord++;
                         lang_count++;
                     }
-                    //*2: first instance of language
-                    else if (lang_index != -1)
-                    {
-                        ltags[lang_index].nWord++;
-                    }
+                    // REMOVED HERE
                 }
                 //*3: DOES NOT EXIST IN DICTIONARY - just keep going
             }
         }
     }
 
-    for (int i = 1; i < lang_count; i++)
+    if (lang_count == 0) // if none of the words are found in the array of entries, like “mi casa su casa”, then the result is a message to say that it cannot determine the language.]
     {
-        if (ltags[i].nWord > ltags[max].nWord)
-        {
-            max = i; // Update max
-        }
+        printf("CANNOT DETERMINE LANGUAGE.\n");
     }
-    // what if tie w another lanuage
-    // if none of the words are found in the array of entries, like “mi casa su casa”, then the result is a message to say that it cannot determine the language.]
+    else
+    {
+        for (i = 1; i < lang_count; i++)
+        {
+            if (ltags[i].nWord > ltags[max].nWord)
+            {
+                max = i; // Update max
+            }
+        }
 
-    printf("The main language of text: %s is %s", origphrase, ltags[max].iLanguage);
+        printf("The main language of text: %s is %s", origphrase, ltags[max].iLanguage);
+    }
 
-    // erase - create clear function?
+    for (i = 0; i < lang_count /*IS THIS CPRRECT*/; i++) // ERASE EVERYTHING
+    {
+        ltags[i].nWord = '\0';
+        strcpy(ltags[i].iLanguage, "");
+    }
 
     languageTool(dictionary, entryCount); // go back to language processing menu
 }
