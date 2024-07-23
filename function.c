@@ -784,7 +784,7 @@ void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
     String20 sTemp, sLanguage, sTranslation;
     char cDump;
 
-    fscanf(fp, "%s%c%s", sLanguage, &cDump, sTranslatiion);
+    fscanf(fp, "%s%c%s", sLanguage, &cDump, sTranslation);
 
     if(sLanguage[strlen(sLanguage) - 1] == ':')
     {
@@ -817,7 +817,7 @@ void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
     printf("\n[IMPORT]\n\n");
     printf("Enter filename:");
     fgets(file_name, sizeof(file_name), stdin);      //ask for file name
-    filename[strlen(file_name) - 1] = '\0';
+    file_name[strlen(file_name) - 1] = '\0';
 
     //scanf("%s", file_name);                
 
@@ -832,8 +832,8 @@ void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
 
                 if(cDump != '\n' && cDump != EOF)
                 {
-                    getText(fp, &dictionary[*entryCount].pairs[j].language, &dictionary[*entryCount].pairs[j].translation, cDump)
-                    fscanf(fp, "%c", &cdump);
+                    getText(fp, &dictionary[*entryCount].pairs[j].language, &dictionary[*entryCount].pairs[j].translation, cDump);
+                    fscanf(fp, "%c", &cDump);
                     dictionary[*entryCount].count++;    //equivalent of entry[*n].nPair++;
                     j++;
                     dCount = 0;
@@ -853,13 +853,13 @@ void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
 
         else if(*entryCount > 0)            //there are already existing entries
         {
-            while(!feof(fp) && *n < 150)
+            while(!feof(fp) && *entryCount < 150)
             {
                 fscanf(fp, "%c", &cDump);
 
                 if(cDump != '\n' && cDump != EOF)
                 {
-                    getText()
+                    getText(fp, &dictionary[*entryCount].pairs[j].language, &dictionary[*entryCount].pairs[j].translation, cDump);
                     fscanf(fp, "%c", &cdump);
                     dictionary[*entryCount].count++;    //equivalent of entry[*n].nPair++;
                     j++;

@@ -45,6 +45,7 @@ void searchWord(Entry dictionary[], int entryCount);
 void searchTranslation(Entry dictionary[], int entryCount);
 void exportFile(Entry dictionary[], int entryCount);
 //MY PART
+void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch);
 void importFile(Entry dictionary[], int *entryCount);
 int tokenize(char origphrase[], String30 tokens[MAX_ENTRIES]);			//char origphrase[] correct
 int matchTranslation(struct langTag ltags[], int lang_count, const char *language);
