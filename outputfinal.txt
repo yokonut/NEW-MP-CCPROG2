@@ -1,0 +1,53 @@
+=====================================
+        Welcome to the Dictionary    
+=====================================
+1. Manage Data
+2. Language Tool
+3. Exit
+=====================================
+Enter your choice: 
+[1;1H[2J=====================================
+          Manage Data Menu           
+=====================================
+1. Add Entry
+2. Add Translations
+3. Modify Entry
+4. Delete Entry
+5. Delete Translation
+6. Display All Entries
+7. Display Specific Language
+8. Search Word
+9. Search Translation
+10. Export
+11. Import
+12. Back to Main Menu
+=====================================
+Enter your choice: [1;1H[2JEnter language: 
+Enter translation: 
+ADDED NEW ENTRY
+=====================================
+Do you want to add more Entry? (Y/N) : =====================================
+          Manage Data Menu           
+=====================================
+1. Add Entry
+2. Add Translations
+3. Modify Entry
+4. Delete Entry
+5. Delete Translation
+6. Display All Entries
+7. Display Specific Language
+8. Search Word
+9. Search Translation
+10. Export
+11. Import
+12. Back to Main Menu
+=====================================
+Enter your choice: =====================================
+        Welcome to the Dictionary    
+=====================================
+1. Manage Data
+2. Language Tool
+3. Exit
+=====================================
+Enter your choice: 
+Exiting... Goodbye!
