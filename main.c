@@ -9,6 +9,7 @@ int main()
 
     do
     {
+        printf("\e[1;1H\e[2J");
         displayMainMenu();
         scanf(" %c", &choice);
         printf("\n");
@@ -20,6 +21,7 @@ int main()
             manageData(dictionary, &entryCount);
             break;
         case '2':
+            printf("\e[1;1H\e[2J");
             languageTool(dictionary, entryCount);
             break;
         case '3':
