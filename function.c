@@ -231,9 +231,9 @@ int checkEntry(Entry dictionary[],
     }
 
     if (count > 0)
-        return -1;
-    else
         return count;
+    else
+        return -1;
 }
 
 /**
