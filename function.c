@@ -1129,86 +1129,92 @@ void simpleTranslation(Entry dictionary[], int entryCount)
     char c;
     int exit = 0;
 
-    printf("SIMPLE TRANSLATION\n");
-
-    // set transphrase to blank AGAIN FOR NEXT USE
-    strcpy(transphrase, "\0");
-    // GET INPUTS
-    printf("\nTranslate from: ");
-    scanf("%s", sourcelang);
-
-    printf("Translate to: ");
-    scanf("%s", destlang);
-    while ((c = getchar()) != '\n' && c != EOF)
+    while (exit == 0)
     {
-    } // NOT SURE IF THIS IS ALLOWED pero this clears buffer from scanf to fgets!!
+        printf("SIMPLE TRANSLATION\n");
 
-    printf("Input phrase/sentence to translate: ");
+        // set transphrase to blank AGAIN FOR NEXT USE
+        strcpy(transphrase, "\0");
+        // GET INPUTS
+        printf("\nTranslate from: ");
+        scanf("%s", sourcelang);
 
-    fgets(origphrase, sizeof(origphrase), stdin);
-    len = strlen(origphrase) - 1;
-
-    if (origphrase[len] == '\n')
-        origphrase[len] = '\0';
-
-    t_size = tokenize(origphrase, tokens);
-
-    for (index = 0; index < t_size; index++)
-    {
-        int found = 0;
-        for (i = 0; i < entryCount && !found; i++)
+        printf("Translate to: ");
+        scanf("%s", destlang);
+        while ((c = getchar()) != '\n' && c != EOF)
         {
-            for (j = 0; j < dictionary[i].count && !found; j++)
+        } // NOT SURE IF THIS IS ALLOWED pero this clears buffer from scanf to fgets!!
+
+        printf("Input phrase/sentence to translate: ");
+
+        fgets(origphrase, sizeof(origphrase), stdin);
+        len = strlen(origphrase) - 1;
+
+        if (origphrase[len] == '\n')
+            origphrase[len] = '\0';
+
+        t_size = tokenize(origphrase, tokens);
+
+        for (index = 0; index < t_size; index++)
+        {
+            int found = 0;
+            for (i = 0; i < entryCount && !found; i++)
             {
-                if (strcmp(dictionary[i].pairs[j].language, sourcelang) == 0 && strcmp(dictionary[i].pairs[j].translation, tokens[index]) == 0)
+                for (j = 0; j < dictionary[i].count && !found; j++)
                 {
-                    for (m = 0; m < dictionary[i].count && !found; m++)
+                    if (strcmp(dictionary[i].pairs[j].language, sourcelang) == 0 && strcmp(dictionary[i].pairs[j].translation, tokens[index]) == 0)
                     {
-                        if (strcmp(dictionary[i].pairs[m].language, destlang) == 0)
+                        for (m = 0; m < dictionary[i].count && !found; m++)
                         {
-                            strcat(transphrase, dictionary[i].pairs[m].translation);
-                            strcat(transphrase, " ");
-                            found = 1;
+                            if (strcmp(dictionary[i].pairs[m].language, destlang) == 0)
+                            {
+                                strcat(transphrase, dictionary[i].pairs[m].translation);
+                                strcat(transphrase, " ");
+                                found = 1;
+                            }
                         }
                     }
                 }
             }
+            if (!found)
+            {
+                strcat(transphrase, tokens[index]);
+                strcat(transphrase, " ");
+            }
         }
-        if (!found)
+
+        // Remove trailing space
+        len = strlen(transphrase) - 1;
+        if (transphrase[len] == ' ')
         {
-            strcat(transphrase, tokens[index]);
-            strcat(transphrase, " ");
+            transphrase[len] = '\0';
         }
+
+        printf("Translated phrase: %s\n", transphrase);
+
+        do
+        {
+            printf("\nDo you want to translate another phrase? (Y/N) : ");
+            scanf(" %c", &response);
+
+            switch (response)
+            {
+            case 'y':
+            case 'Y':
+                exit = 0; // Stay in the loop
+                break;
+
+            case 'n':
+            case 'N':
+                exit = 1; // Exit the loop
+                break;
+
+            default:
+                printf("WRONG INPUT PLEASE TRY AGAIN >:(\n");
+            }
+
+        } while (response != 'y' && response != 'Y' && response != 'n' && response != 'N');
     }
-
-    // Remove trailing space
-    len = strlen(transphrase) - 1;
-    transphrase[len] = '\0';
-
-    printf("Translated phrase: %s\n", transphrase);
-
-    do
-    {
-        printf("\nDo you want to translate another phrase? (Y/N) : ");
-        scanf(" %c", &response);
-
-        switch (response)
-        {
-        case 'y':
-        case 'Y':
-            simpleTranslation(dictionary, entryCount);
-            break;
-
-        case 'n':
-        case 'N':
-            exit = 123;
-            break;
-
-        default:
-            printf("WRONG INPUT PLEASE TRY AGAIN >:(\n");
-        }
-
-    } while (exit == 0);
 }
 
 /**
