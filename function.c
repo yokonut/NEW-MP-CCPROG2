@@ -1106,6 +1106,9 @@ void simpleTranslation(Entry dictionary[], int entryCount)
 
     printf("Translate to: ");
     scanf("%s", destlang);
+    while ((c = getchar()) != '\n' && c != EOF)
+    {
+    } // NOT SURE IF THIS IS ALLOWED pero this clears buffer from scanf to fgets!! 
 
     printf("Input phrase/sentence to translate: ");
 
