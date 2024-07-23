@@ -1002,6 +1002,8 @@ void identifyLanguage(Entry dictionary[], int entryCount)
     int lang_count = 0;
     int maxWords = 0;
     int maxIndex = -1; // Initialize to -1 to detect no match
+    int newLang;
+    int found;
 
     String150 origphrase;
     String20 tokens[MAX_ENTRIES];
@@ -1021,26 +1023,27 @@ void identifyLanguage(Entry dictionary[], int entryCount)
     {
         for (i = 0; i < entryCount; i++)
         {
-            for (j = 0; j < dictionary[i].count; j++)
+            found = 0;
+            for (j = 0; j < dictionary[i].count && !found; j++)
             {
                 if (strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) // If the word matches
                 {
-                    int found = 0;
+                    newLang = 1;
                     for (k = 0; k < lang_count; k++)
                     {
                         if (strcmp(ltags[k].iLanguage, dictionary[i].pairs[j].language) == 0)
                         {
                             ltags[k].nWord++;
-                            found = 1;
-                            break;
+                            newLang = 0;
                         }
                     }
-                    if (!found)
+                    if (newLang)
                     {
                         strcpy(ltags[lang_count].iLanguage, dictionary[i].pairs[j].language);
                         ltags[lang_count].nWord = 1;
                         lang_count++;
                     }
+                    found = 1;
                 }
             }
         }
@@ -1183,6 +1186,7 @@ void languageTool(Entry dictionary[],
 
     do
     {
+        printf("\e[1;1H\e[2J");
         languageToolMenu(); // display menu
         scanf(" %c", &langChoice);
 
