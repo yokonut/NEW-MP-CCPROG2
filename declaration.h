@@ -47,9 +47,8 @@ void exportFile(Entry dictionary[], int entryCount);
 void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch);
 void importFile(Entry dictionary[], int *entryCount);
 int tokenize(char origphrase[], String20 tokens[MAX_ENTRIES]);			//char origphrase[] correct
-//int matchTranslation(struct langTag ltags[], int lang_count, const char *language);
-//void sortDescending(struct langTag ltags[], int lang_count);
-//int seeMatch(Entry dictionary[], int n, String20 sLang, String20 sTrans);
 void identifyLanguage(Entry dictionary[], int entryCount);
 void simpleTranslation(Entry dictionary[], int entryCount);
 void languageTool(Entry dictionary[], int entryCount);
+void displaySpecific(Entry dictionary[], int entryCount);
+int containsLanguage(Entry entry, const char *language);
