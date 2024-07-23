@@ -1131,6 +1131,8 @@ void simpleTranslation(Entry dictionary[], int entryCount)
 
     printf("SIMPLE TRANSLATION\n");
 
+    // set transphrase to blank AGAIN FOR NEXT USE
+    strcpy(transphrase, "\0");
     // GET INPUTS
     printf("\nTranslate from: ");
     scanf("%s", sourcelang);
@@ -1180,8 +1182,8 @@ void simpleTranslation(Entry dictionary[], int entryCount)
     }
 
     // Remove trailing space
-    len = strlen(transphrase);
-    if (len > 0 && transphrase[len - 1] == ' ')
+    len = strlen(transphrase) - 1;
+    if (transphrase[len] == '\n')
         transphrase[len - 1] = '\0';
 
     printf("Translated phrase: %s\n", transphrase);
