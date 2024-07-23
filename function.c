@@ -143,7 +143,8 @@ void manageData(Entry dictionary[], int *entryCount)
             else
                 printf("NO ENTRY\n");
             break;
-        case 10:
+        case 10:        //import
+            printf("\e[1;1H\e[2J");
             break;
         case 11:
             return;
@@ -884,7 +885,7 @@ void exportFile(Entry dictionary[], int entryCount)
     }
 
     //SORT FIRST? - Based on the last note in the Export, do not assume that each entry in the file to be imported are already sorted.
-    
+
     if(*entryCount == MAX_ENTRIES)    
     {
         printf("MAX ENTRIES REACHED.\n");
@@ -1151,9 +1152,11 @@ void languageTool(Entry dictionary[], int entryCount)
 		switch(langChoice)
 		{
 			case 1:				//identify main language
+                printf("\e[1;1H\e[2J");
 				identifyLanguage(dictionary, entryCount);		//no & cos we wont edit
 				break;
 			case 2:					//simple translation
+                printf("\e[1;1H\e[2J");
 				simpleTranslation(dictionary, entryCount);
 				//printf("sucess");			//automatically goes back to language tool menu after
 				break;
