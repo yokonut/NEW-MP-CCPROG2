@@ -898,7 +898,7 @@ void importFile(Entry dictionary[],
                     j = 0;
                     do
                     {
-                        printf("\n");
+                        printf("\e[1;1H\e[2J");
 
                         for (i = 0; i < dictionary[*entryCount].count; i++)
                         {
@@ -908,21 +908,20 @@ void importFile(Entry dictionary[],
                         printf("\n Is this a new entry? [Y/N]");
                         scanf("%c", &response);
 
-                    } while (response != 'Y' && response != 'y' && response != 'N' && response != 'n');
-
-                    if (response == 'Y' || response == 'y') // new entry
-                    {
-                        (*entryCount)++;
-                    }
-                    else if (response == 'N' || response == 'n')
-                    {
-                        for (i = 0; i < dictionary[*entryCount].count; i++)
+                        if (response == 'Y' || response == 'y') // new entry
                         {
-                            dictionary[*entryCount].pairs[i].language[0] = '\0';
-                            dictionary[*entryCount].pairs[i].translation[0] = '\0'; // clears the information in the specific trans
+                            (*entryCount)++;
                         }
-                        dictionary[*entryCount].count = 0;
-                    }
+                        else if (response == 'N' || response == 'n')
+                        {
+                            for (i = 0; i < dictionary[*entryCount].count; i++)
+                            {
+                                dictionary[*entryCount].pairs[i].language[0] = '\0';
+                                dictionary[*entryCount].pairs[i].translation[0] = '\0'; // clears the information in the specific trans
+                            }
+                            dictionary[*entryCount].count = 0;
+                        }
+                    } while (response != 'Y' && response != 'y' && response != 'N' && response != 'n');
                 }
             }
         }
@@ -1059,7 +1058,7 @@ void identifyLanguage(Entry dictionary[], int entryCount)
         }
     }
 
-    if (maxIndex == -1)
+    if (lang_count == 0)
     {
         printf("Cannot detect main language\n");
     }
@@ -1182,11 +1181,11 @@ void languageTool(Entry dictionary[],
                   int entryCount)
 {
     char langChoice;
-    int exit =0;
+    int exit = 0;
 
     do
     {
-        printf("\e[1;1H\e[2J");
+        
         languageToolMenu(); // display menu
         scanf(" %c", &langChoice);
 
@@ -1194,7 +1193,7 @@ void languageTool(Entry dictionary[],
         {
         case '1': // identify main language
             printf("\e[1;1H\e[2J");
-            identifyLanguage(dictionary, entryCount); 
+            identifyLanguage(dictionary, entryCount);
             break;
         case '2': // simple translation
             printf("\e[1;1H\e[2J");
