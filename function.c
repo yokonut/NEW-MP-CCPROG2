@@ -1138,7 +1138,7 @@ void simpleTranslation(Entry dictionary[], int entryCount)
     printf("SIMPLE TRANSLATION\n");
 
     // GET INPUTS
-    printf("Translate from: ");
+    printf("\nTranslate from: ");
     scanf("%s", sourcelang);
 
     printf("Translate to: ");
@@ -1194,7 +1194,7 @@ void simpleTranslation(Entry dictionary[], int entryCount)
 
     do
     {
-        printf("Do you want to translate another phrase? (Y/N) : ");
+        printf("\nDo you want to translate another phrase? (Y/N) : ");
         scanf(" %c", &response);
 
         switch (response)
