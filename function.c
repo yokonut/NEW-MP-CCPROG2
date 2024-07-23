@@ -785,6 +785,9 @@ void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
     String20 sTemp, sLanguage, sTranslation;
     char cDump;
 
+    sTemp[0] = ch;
+    sTemp[1] = '\0';
+
     fscanf(fp, "%s%c%s", sLanguage, &cDump, sTranslation);
 
     if (sLanguage[strlen(sLanguage) - 1] == ':')
@@ -815,6 +818,7 @@ void importFile(Entry dictionary[], int *entryCount) // add to menu - will test 
 
     printf("\n[IMPORT]\n\n");
     printf("Enter filename:");
+    scanf("%c", &cDump);
     fgets(file_name, sizeof(file_name), stdin); // ask for file name
     file_name[strlen(file_name) - 1] = '\0';
 
@@ -904,7 +908,7 @@ void importFile(Entry dictionary[], int *entryCount) // add to menu - will test 
     }
     else
     { // file does not exist
-        printf("ERROR OPENING FILE.");
+        printf("ERROR OPENING FILE.\n");
     }
 
     // SORT FIRST? - Based on the last note in the Export, do not assume that each entry in the file to be imported are already sorted.
@@ -1002,7 +1006,7 @@ void identifyLanguage(Entry dictionary[], int entryCount)
 
     struct langTag ltags[MAX_LANG_LEN];
 
-    int i, j, k;
+    int i, j;
     int tokens_i;
 
     String150 origphrase;
@@ -1017,27 +1021,33 @@ void identifyLanguage(Entry dictionary[], int entryCount)
     int lang_index = 0;
     int max = 0;
 
-    for (i = 0; i < entryCount; i++)
+    for (tokens_i = 0; tokens_i < t_size; tokens_i++)
     {
-        for (j = 0; j < dictionary[i].count; j++) // what is dictionary count
+        for (i = 0; i < entryCount; i++)
         {
-            for (tokens_i = 0; tokens_i < t_size; tokens_i++)
+            for (j = 0; j < dictionary[i].count; j++)
             {
-                if (strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) // FOUND WORD- mahal
-                {                                                                      // get language
-                    lang_index = matchTranslation(ltags, lang_count, dictionary[i].pairs[j].language);
-                    // lang_index = matchTranslation(dictionary, langTag f, entryCount, lang_count, i, j)
+                matchTranslation(ltags, lang_count, dictionary[i].pairs[j].language);
+                if ((strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) /*match word and token*/ && (lang_index != -1 /*exists*/)) // FOUND WORD- mahal
+                {
+                    strcpy(ltags[lang_count].iLanguage, dictionary[i].pairs[j].language);
+                    ltags[lang_count].nWord++;
+                    lang_count++;
+                }
 
-                    //*1: language is logged na
-                    if (lang_index != -1) // FOUND LANGUAGE IN DICTIONARY
+                //*1: language is logged na
+                /*
+                    if(lang_index != -1)                    //FOUND LANGUAGE IN DICTIONARY
                     {
                         strcpy(ltags[lang_count].iLanguage, dictionary[i].pairs[j].language);
                         ltags[lang_count].nWord++;
                         lang_count++;
                     }
-                    // REMOVED HERE
-                }
-                //*3: DOES NOT EXIST IN DICTIONARY - just keep going
+                    else
+                    {
+                        ltags[lang_index].nWord++;			//is this correcy
+                    }
+                */
             }
         }
     }
@@ -1046,7 +1056,7 @@ void identifyLanguage(Entry dictionary[], int entryCount)
     {
         printf("CANNOT DETERMINE LANGUAGE.\n");
     }
-    else
+    else if (lang_count > 0)
     {
         for (i = 1; i < lang_count; i++)
         {
@@ -1065,7 +1075,7 @@ void identifyLanguage(Entry dictionary[], int entryCount)
         strcpy(ltags[i].iLanguage, "");
     }
 
-    languageTool(dictionary, entryCount); // go back to language processing menu
+    // languageTool(dictionary, entryCount);     //go back to language processing menu
 }
 
 /**
