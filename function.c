@@ -223,6 +223,8 @@ int checkEntry(Entry dictionary[], int entryCount, String20 language, String20 t
             indexFound[count] = i;
             count++;
         }
+        else
+            return -1;
     }
 
     return count;
@@ -996,6 +998,60 @@ int matchTranslation(struct langTag ltags[], int lang_count, const char *languag
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
+void sort(struct langTag ltags[], int lang_count)
+{
+  int i, j, min;
+  struct langTag lTemp;
+
+  for (i = 0; i < n - 1; i++)
+  {
+    min = i;
+
+    for (j = i + 1; j < n; j++)
+    {
+      if (ltags[min].nWord < ltags[j].nWord)
+        min = j;
+    }
+
+    if (i != min)
+    {
+      lTemp = ltags[i];
+      ltags[i] = ltags[min];
+      ltags[min] = lTemp;
+    }
+  }
+}
+
+/**
+ * function checkPair identifies main language of string
+ * @param dictionary - array of struct
+ * @param entryCount - total nubmer of struct in dictionary
+ *
+ */
+int seeMatch(Entry dictionary[], 
+              int n, 
+              String20 sLang, 
+              String20 sTrans)
+{
+  int i;
+
+  for (i = 0; i < entry[n].nPair; i++)
+  {
+    if (strcmp(sLang, entry[n].sPair[i].pLanguage) == 0 &&
+        strcmp(sTrans, entry[n].sPair[i].pTranslation) == 0) //checks if pair exists
+    {
+      return 1; //found
+    }
+  }
+  return 0; //not found
+}
+
+/**
+ * function identifyLanguage identifies main language of string
+ * @param dictionary - array of struct
+ * @param entryCount - total nubmer of struct in dictionary
+ *
+ */
 
 void identifyLanguage(Entry dictionary[], int entryCount)
 {
@@ -1045,46 +1101,41 @@ void identifyLanguage(Entry dictionary[], int entryCount)
     }
     else if (lang_count > 0)
     {
-        for (i = 0; i < lang_count; i++)
+        for(i = 0; i < lang_count; i++)
         {
-            nwordCount = 0;
-            for (k = 0; k < t_size; k++)
+            wCount = 0;
+            for (m = 0; m < t_size; m++)
             {
-                if()
+                wDump = 0;
+                for (j = 0; j < entryCount; j++)
                 {
-
+                    if(seeMatch(entry, j, ltags[i].iLanguage, words[m]) == 1)
+                    {
+                        wDump++;
+                    }
                 }
             }
 
-            if()//WCNTDMP
+            if(wDump > 0)
+            {
+                wCount++;
+            }
+            ltags[i].nWord = wCount;
         }
             
         if(lang_count > 1)
-            //sort language
-    
-        if(lang_count == 1)
-        {
-            printf("The main language of text: %s is %s", origphrase, ltags[0].iLanguage);
-        }
-        else if (lang_count > 1)
-        {
-            for (int i = 1; i < lang_count; i++) 
-            {
-                if (ltags[i].nWord > ltags[max].nWord) 
-                {
-                    max = i;  // Update max
-                }
-            }
-            printf("The main language of text: %s is %s", origphrase, ltags[max].iLanguage);
-        }
+            sort(ltags, lang_count);                 //sort language
+           
     }
+
+    printf("The main language of text: %s is %s", origphrase, ltags[0].iLanguage);
 
     for (i = 0; i < lang_count /*IS THIS CPRRECT*/; i++) // ERASE EVERYTHING
     {
         ltags[i].nWord = '\0';
         strcpy(ltags[i].iLanguage, "");
     }
-    
+
 }
 
 /**

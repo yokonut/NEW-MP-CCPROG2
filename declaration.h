@@ -20,11 +20,11 @@ typedef struct
 typedef struct
 {
     TranslationPair pairs[10];
-    int count;
+    int count;                
 } Entry;
 
 struct langTag {
-    String20 iLanguage;
+    String20 iLanguage;         //language name
     int nWord;                  //number of times it appears in phrase
 };
 
@@ -44,20 +44,12 @@ void deleteEntry(Entry dictionary[], int *entryCount);
 void searchWord(Entry dictionary[], int entryCount);
 void searchTranslation(Entry dictionary[], int entryCount);
 void exportFile(Entry dictionary[], int entryCount);
-//MY PART
 void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch);
 void importFile(Entry dictionary[], int *entryCount);
 int tokenize(char origphrase[], String30 tokens[MAX_ENTRIES]);			//char origphrase[] correct
 int matchTranslation(struct langTag ltags[], int lang_count, const char *language);
+void sortDescending(struct langTag ltags[], int lang_count)
+void seeMatch(Entry dictionary[], int n, String20 sLang, String20 sTrans);
 void identifyLanguage(Entry dictionary[], int entryCount);
 void simpleTranslation(Entry dictionary[], int entryCount);
 void languageTool(Entry dictionary[], int entryCount);
-
-/*
-void importFile();
-int tokenize(String150 origphrase);
-int matchTranslation(Entry dictionary[], int entryCount, /*struct langTag, int lang_index, int i, int j);
-void identifyLanguage(entryCount);
-void simpleTranslation(entryCount);
-void languageTool();           
-*/
