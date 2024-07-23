@@ -9,7 +9,7 @@ int main()
 
     do
     {
-
+        printf("\e[1;1H\e[2J");
         displayMainMenu();
         scanf(" %c", &choice);
         printf("\n");

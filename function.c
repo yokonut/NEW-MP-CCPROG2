@@ -1009,9 +1009,13 @@ void identifyLanguage(Entry dictionary[], int entryCount)
     String150 origphrase;
     int t_size;
     String30 tokens[MAX_ENTRIES];
+    int len;
 
-    fgets(origphrase, 150, stdin);
-    origphrase[strcspn(origphrase, "\n")] = '\0'; // is this allowed
+    fgets(origphrase, sizeof(origphrase), stdin);
+    len = strlen(origphrase) - 1;
+    if (origphrase[len] == '\n')
+        origphrase[len] = '\0';
+
     t_size = tokenize(origphrase, tokens);
 
     int lang_count = 0;
@@ -1096,7 +1100,7 @@ void simpleTranslation(Entry dictionary[], int entryCount)
     int len;
     char response;
     char c;
-    int exit = 1;
+    int exit = 0;
 
     printf("SIMPLE TRANSLATION\n");
 
@@ -1108,7 +1112,7 @@ void simpleTranslation(Entry dictionary[], int entryCount)
     scanf("%s", destlang);
     while ((c = getchar()) != '\n' && c != EOF)
     {
-    } // NOT SURE IF THIS IS ALLOWED pero this clears buffer from scanf to fgets!! 
+    } // NOT SURE IF THIS IS ALLOWED pero this clears buffer from scanf to fgets!!
 
     printf("Input phrase/sentence to translate: ");
 
@@ -1157,7 +1161,7 @@ void simpleTranslation(Entry dictionary[], int entryCount)
 
     do
     {
-        printf("Do you want to translate another phrase? : (Y/N)");
+        printf("Do you want to translate another phrase? (Y/N) : ");
         scanf(" %c", &response);
 
         switch (response)
@@ -1169,14 +1173,14 @@ void simpleTranslation(Entry dictionary[], int entryCount)
 
         case 'n':
         case 'N':
-            exit = 0;
+            exit = 123;
             break;
 
         default:
             printf("WRONG INPUT PLEASE TRY AGAIN >:(\n");
         }
 
-    } while (exit != 0);
+    } while (exit == 0);
 }
 
 /**
@@ -1190,6 +1194,7 @@ void languageTool(Entry dictionary[], int entryCount)
 
     do
     {
+        printf("\e[1;1H\e[2J");
         languageToolMenu(); // display menu
         scanf("%d", &langChoice);
 
