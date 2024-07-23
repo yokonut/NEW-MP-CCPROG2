@@ -41,11 +41,12 @@ void manageDataMenu()
     printf("4. Delete Entry\n");
     printf("5. Delete Translation\n");
     printf("6. Display All Entries\n");
-    printf("7. Search Word\n");
-    printf("8. Search Translation\n");
-    printf("9. Export\n");
-    printf("10. Import\n");
-    printf("11. Back to Main Menu\n");
+    printf("7. Display Specific Language\n");
+    printf("8. Search Word\n");
+    printf("9. Search Translation\n");
+    printf("10. Export\n");
+    printf("11. Import\n");
+    printf("12. Back to Main Menu\n");
     printf("=====================================\n");
     printf("Enter your choice: ");
 }
@@ -126,29 +127,38 @@ void manageData(Entry dictionary[],
         case 7:
             printf("\e[1;1H\e[2J");
             if (*entryCount > 0)
+                displaySpecific(dictionary, *entryCount);
+            else
+                printf("NO ENTRY\n");
+            break;
+        case 8:
+            printf("\e[1;1H\e[2J");
+            if (*entryCount > 0)
                 searchWord(dictionary, *entryCount);
             else
                 printf("NO ENTRY\n");
-            break; // Back to Main Menu
-        case 8:
+
+            break;
+        case 9:
             printf("\e[1;1H\e[2J");
             if (*entryCount > 0)
                 searchTranslation(dictionary, *entryCount);
             else
                 printf("NO ENTRY\n");
-            break; // Back to Main Menu
-        case 9:
+
+            break;
+        case 10:
             printf("\e[1;1H\e[2J");
             if (*entryCount > 0)
                 exportFile(dictionary, *entryCount);
             else
                 printf("NO ENTRY\n");
             break;
-        case 10: // import
+        case 11:
             printf("\e[1;1H\e[2J");
             importFile(dictionary, entryCount);
-            break;
-        case 11:
+            return;
+        case 12:
             return;
         default:
             printf("Invalid choice. Please try again.\n");
@@ -984,6 +994,28 @@ int tokenize(String150 origphrase,
     return token_i;
 }
 
+void selectionSort(langTag arr[], int n)
+{
+    int i, j, minIdx;
+    for (i = 0; i < n - 1; i++)
+    {
+        minIdx = i;
+        for (j = i + 1; j < n; j++)
+        {
+            if (arr[j].nWord < arr[minIdx].nWord)
+            {
+                minIdx = j;
+            }
+        }
+        if (minIdx != i)
+        {
+            langTag temp = arr[i];
+            arr[i] = arr[minIdx];
+            arr[minIdx] = temp;
+        }
+    }
+}
+
 /**
  * function identifyLanguage identifies main language of string
  * @param dictionary - array of struct
@@ -1048,23 +1080,34 @@ void identifyLanguage(Entry dictionary[], int entryCount)
         }
     }
 
-    // Find the language with the highest word count
-    for (i = 0; i < lang_count; i++)
-    {
-        if (ltags[i].nWord > maxWords)
-        {
-            maxWords = ltags[i].nWord;
-            maxIndex = i;
-        }
-    }
-
     if (lang_count == 0)
     {
         printf("Cannot detect main language\n");
+        return;
     }
-    else
+
+    // Selection sort the ltags array in ascending order based on nWord
+    selectionSort(ltags, lang_count);
+
+    // Print the sorted languages and their word counts
+    printf("\nLanguages sorted by word count:\n");
+    for (i = 0; i < lang_count; i++)
     {
-        printf("The main language of text: \"%s\" is %s\n", origphrase, ltags[maxIndex].iLanguage);
+        printf("%s: %d\n", ltags[i].iLanguage, ltags[i].nWord);
+    }
+    printf("\n");
+    // Print the top 3 languages
+    if (lang_count > 0)
+    {
+        printf("The main language of text: \"%s\" is %s\n", origphrase, ltags[lang_count - 1].iLanguage);
+    }
+    if (lang_count > 1)
+    {
+        printf("The second language of text: \"%s\" is %s\n", origphrase, ltags[lang_count - 2].iLanguage);
+    }
+    if (lang_count > 2)
+    {
+        printf("The third language of text: \"%s\" is %s\n", origphrase, ltags[lang_count - 3].iLanguage);
     }
 }
 
@@ -1185,7 +1228,7 @@ void languageTool(Entry dictionary[],
 
     do
     {
-        
+
         languageToolMenu(); // display menu
         scanf(" %c", &langChoice);
 
@@ -1208,4 +1251,142 @@ void languageTool(Entry dictionary[],
         }
 
     } while (exit == 0);
+}
+int containsLanguage(Entry entry, const char *language)
+{
+    for (int i = 0; i < entry.count; i++)
+    {
+        if (strcmp(entry.pairs[i].language, language) == 0)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void displaySpecific(Entry dictionary[], int entryCount)
+{
+    int i, j;
+    int page = 0;
+    char response;
+    int exit = 0;
+    char language[MAX_LANG_LEN];
+    int hasEntriesToShow = 0;
+
+    if (entryCount == 0)
+    {
+        printf("NO ENTRY TO DISPLAY\n");
+    }
+    else
+    {
+        // Ask the user for the language to filter by
+        printf("Enter the language to filter by: ");
+        scanf("%s", language);
+
+        // Create a temporary array to store filtered entries
+        Entry filteredEntries[MAX_ENTRIES];
+        int filteredCount = 0;
+
+        // Filter entries by the specified language
+        for (i = 0; i < entryCount; i++)
+        {
+            if (containsLanguage(dictionary[i], language))
+            {
+                filteredEntries[filteredCount++] = dictionary[i];
+            }
+        }
+
+        if (filteredCount > 0)
+        {
+            hasEntriesToShow = 1;
+        }
+        else
+        {
+            printf("NO ENTRIES MATCH THE SPECIFIED LANGUAGE\n");
+        }
+
+        while (exit == 0 && hasEntriesToShow)
+        {
+            printf("\e[1;1H\e[2J");
+            printf("ENTRY %d out of %d: \n", page + 1, filteredCount);
+            sortEntry(&filteredEntries[page]);
+            displayEntry(filteredEntries[page]);
+            if (page == 0 && filteredCount > 1)
+            {
+                printf("ENTER [N] NEXT [X] EXIT : ");
+                scanf(" %c", &response);
+                printf("\n");
+                switch (response)
+                {
+                case 'n':
+                case 'N':
+                    page++;
+                    break;
+                case 'x':
+                case 'X':
+                    exit = 1;
+                    break;
+                default:
+                    printf("INVALID INPUT!\n");
+                }
+            }
+            else if (page > 0 && page < filteredCount - 1)
+            {
+                printf("ENTER [N] NEXT [P] PREVIOUS [X] EXIT : ");
+                scanf(" %c", &response);
+                printf("\n");
+                switch (response)
+                {
+                case 'n':
+                case 'N':
+                    page++;
+                    break;
+                case 'p':
+                case 'P':
+                    page--;
+                    break;
+                case 'x':
+                case 'X':
+                    exit = 1;
+                    break;
+                default:
+                    printf("INVALID INPUT!\n");
+                }
+            }
+            else if (page == 0 && filteredCount == 1)
+            {
+                printf("ENTER [X] EXIT :");
+                scanf(" %c", &response);
+                printf("\n");
+                switch (response)
+                {
+                case 'x':
+                case 'X':
+                    exit = 1;
+                    break;
+                default:
+                    printf("INVALID INPUT!\n");
+                }
+            }
+            else if (page == filteredCount - 1)
+            {
+                printf("ENTER [P] PREVIOUS [X] EXIT : ");
+                scanf(" %c", &response);
+                printf("\n");
+                switch (response)
+                {
+                case 'p':
+                case 'P':
+                    page--;
+                    break;
+                case 'x':
+                case 'X':
+                    exit = 1;
+                    break;
+                default:
+                    printf("INVALID INPUT!\n");
+                }
+            }
+        }
+    }
 }
