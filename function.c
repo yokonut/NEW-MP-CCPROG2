@@ -238,11 +238,12 @@ int checkEntry(Entry dictionary[],
             indexFound[count] = i;
             count++;
         }
-        else
-            return -1;
     }
 
-    return count;
+    if (count > 0)
+        return count;
+    else
+        return -1;
 }
 
 /**
