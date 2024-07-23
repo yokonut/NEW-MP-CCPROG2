@@ -853,14 +853,29 @@ void exportFile(Entry dictionary[], int entryCount)
 
                         for (i = 0; i < dictionary[*entryCount].count; i++)
                         {
-                            printf("%s: ")
-                            //add here
+                            printf("%s: %s\n", dictionary[*entryCount].pairs[i].language, dictionary[*entryCount].pairs[i].translation)
                         }
 
+                        printf("\n Is this a new entry? [Y/N]");
+                        scanf("%c", &response);
+
+                    } while (response != 'Y' && response != 'y' && response != 'N' && response != 'n');
+
+                    if(response == 'Y' || response == 'y')      //new entry
+                    {
+                        (*entryCount)++;      
+                    }
+                    else if(response == 'N' || response == 'n')
+                    {
+                        for(i = 0; i < dictionary[*entryCount].count; i++)
+                        {
+                            dictionary[*entryCount].pairs[i].language[0] = '\0';
+                            dictionary[*entryCount].pairs[i].translation[0] = '\0'; //clears the information in the specific trans
+                        }
+                        dictionary[*entryCount].count = 0;
                     }
                 }
             }
-//this whole thing
         }
     }
     else
@@ -869,8 +884,7 @@ void exportFile(Entry dictionary[], int entryCount)
     }
 
     //SORT FIRST? - Based on the last note in the Export, do not assume that each entry in the file to be imported are already sorted.
-
-
+    
     if(*entryCount == MAX_ENTRIES)    
     {
         printf("MAX ENTRIES REACHED.\n");
