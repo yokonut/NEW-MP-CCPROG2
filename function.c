@@ -143,7 +143,7 @@ void manageData(Entry dictionary[], int *entryCount)
             else
                 printf("NO ENTRY\n");
             break;
-        case 10:        //import
+        case 10: // import
             printf("\e[1;1H\e[2J");
             break;
         case 11:
@@ -774,7 +774,7 @@ void exportFile(Entry dictionary[], int entryCount)
 }
 
 /**
- * function import File IMPORTS DATA 
+ * function import File IMPORTS DATA
  * @param dictionary - array of struct
  * @param entryCount - total nubmer of struct in dictionary
  *
@@ -786,7 +786,7 @@ void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
 
     fscanf(fp, "%s%c%s", sLanguage, &cDump, sTranslation);
 
-    if(sLanguage[strlen(sLanguage) - 1] == ':')
+    if (sLanguage[strlen(sLanguage) - 1] == ':')
     {
         sLanguage[strlen(sLanguage) - 1] = '\0';
     }
@@ -794,83 +794,80 @@ void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
     strcat(sTemp, sLanguage);
     strcpy(*pLang, sTemp);
     strcpy(*pTrans, sTranslation);
-
 }
 
-
 /**
- * function import File IMPORTS DATA 
+ * function import File IMPORTS DATA
  * @param dictionary - array of struct
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
- void importFile(Entry dictionary[], int *entryCount)          //add to menu - will test tom
- {
-    FILE *fp;  
+void importFile(Entry dictionary[], int *entryCount) // add to menu - will test tom
+{
+    FILE *fp;
     String20 file_name;
     char cDump;
     char response;
     int i = 0;
-    int j = 0; 
+    int j = 0;
     int dCount = 0;
 
     printf("\n[IMPORT]\n\n");
     printf("Enter filename:");
-    fgets(file_name, sizeof(file_name), stdin);      //ask for file name
+    fgets(file_name, sizeof(file_name), stdin); // ask for file name
     file_name[strlen(file_name) - 1] = '\0';
 
-    //scanf("%s", file_name);                
+    // scanf("%s", file_name);
 
-    fp = fopen(file_name, "r");             //fopen
-    if(fp != NULL)                          //file exists
+    fp = fopen(file_name, "r"); // fopen
+    if (fp != NULL)             // file exists
     {
-        if(*entryCount == 0)			                                //no entries yet
-	    {
-		    while(!feof(fp) && *entryCount < MAX_ENTRIES)           //keep going while eof not reached + entry count not yet exceeded
-            {       //just list everything
+        if (*entryCount == 0) // no entries yet
+        {
+            while (!feof(fp) && *entryCount < MAX_ENTRIES) // keep going while eof not reached + entry count not yet exceeded
+            {                                              // just list everything
                 fscanf(fp, "%c", &cDump);
 
-                if(cDump != '\n' && cDump != EOF)
+                if (cDump != '\n' && cDump != EOF)
                 {
                     getText(fp, &dictionary[*entryCount].pairs[j].language, &dictionary[*entryCount].pairs[j].translation, cDump);
                     fscanf(fp, "%c", &cDump);
-                    dictionary[*entryCount].count++;    //equivalent of entry[*n].nPair++;
+                    dictionary[*entryCount].count++; // equivalent of entry[*n].nPair++;
                     j++;
                     dCount = 0;
                 }
-                else if(cDump == '\n')
+                else if (cDump == '\n')
                 {
                     dCount++;
                 }
-                if(dCount == 1)
+                if (dCount == 1)
                 {
                     (*entryCount)++;
                     j = 0;
                 }
-
             }
-	    }
+        }
 
-        else if(*entryCount > 0)            //there are already existing entries
+        else if (*entryCount > 0) // there are already existing entries
         {
             while(!feof(fp) && *entryCount < 150)
             {
                 fscanf(fp, "%c", &cDump);
 
-                if(cDump != '\n' && cDump != EOF)
+                if (cDump != '\n' && cDump != EOF)
                 {
                     getText(fp, &dictionary[*entryCount].pairs[j].language, &dictionary[*entryCount].pairs[j].translation, cDump);
-                    fscanf(fp, "%c", &cdump);
-                    dictionary[*entryCount].count++;    //equivalent of entry[*n].nPair++;
+                    fscanf(fp, "%c", &cDump);
+                    dictionary[*entryCount].count++; // equivalent of entry[*n].nPair++;
                     j++;
                     dCount = 0;
                 }
-                else if(cDump == '\n')
+                else if (cDump == '\n')
                 {
                     dCount++;
                 }
 
-                if(dCount == 1)
+                if (dCount == 1)
                 {
                     j = 0;
                     do
@@ -879,7 +876,7 @@ void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
 
                         for (i = 0; i < dictionary[*entryCount].count; i++)
                         {
-                            printf("%s: %s\n", dictionary[*entryCount].pairs[i].language, dictionary[*entryCount].pairs[i].translation)
+                            printf("%s: %s\n", dictionary[*entryCount].pairs[i].language, dictionary[*entryCount].pairs[i].translation);
                         }
 
                         printf("\n Is this a new entry? [Y/N]");
@@ -887,16 +884,16 @@ void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
 
                     } while (response != 'Y' && response != 'y' && response != 'N' && response != 'n');
 
-                    if(response == 'Y' || response == 'y')      //new entry
+                    if (response == 'Y' || response == 'y') // new entry
                     {
-                        (*entryCount)++;      
+                        (*entryCount)++;
                     }
-                    else if(response == 'N' || response == 'n')
+                    else if (response == 'N' || response == 'n')
                     {
-                        for(i = 0; i < dictionary[*entryCount].count; i++)
+                        for (i = 0; i < dictionary[*entryCount].count; i++)
                         {
                             dictionary[*entryCount].pairs[i].language[0] = '\0';
-                            dictionary[*entryCount].pairs[i].translation[0] = '\0'; //clears the information in the specific trans
+                            dictionary[*entryCount].pairs[i].translation[0] = '\0'; // clears the information in the specific trans
                         }
                         dictionary[*entryCount].count = 0;
                     }
@@ -905,56 +902,53 @@ void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
         }
     }
     else
-    {           //file does not exist
+    { // file does not exist
         printf("ERROR OPENING FILE.");
     }
 
-    //SORT FIRST? - Based on the last note in the Export, do not assume that each entry in the file to be imported are already sorted.
+    // SORT FIRST? - Based on the last note in the Export, do not assume that each entry in the file to be imported are already sorted.
 
-    if(*entryCount == MAX_ENTRIES)    
+    if (*entryCount == MAX_ENTRIES)
     {
         printf("MAX ENTRIES REACHED.\n");
     }
 
     fclose(fp);
-
- }
+}
 
 /*
  * function tokenize returns number of tokens in phrase
  * @param origphrase - phrase to be tokenized
- * 
+ *
  */
 int tokenize(String150 origphrase, String30 tokens[MAX_ENTRIES])
 {
-    //make sure it deals with SPACES and EXPRESSIONS
-    //make sure it returns correct no of tokens
+    // make sure it deals with SPACES and EXPRESSIONS
+    // make sure it returns correct no of tokens
 
-    int token_i = 0;	//token number
-    int i = 0;		//orig phrase letter
-    int j = 0;		//token letter
-    int k = 0;		//initializing empty strings
-    
+    int token_i = 0; // token number
+    int i = 0;       // orig phrase letter
+    int j = 0;       // token letter
+    int k = 0;       // initializing empty strings
 
-    while (origphrase[i] != '\0')     //for the letters in new arr
+    while (origphrase[i] != '\0') // for the letters in new arr
     {
-        if ( (origphrase[i] >= 'A' && origphrase[i] <= 'Z') || (origphrase[i] >= 'a' && origphrase[i] <= 'z'))  //is a letter
+        if ((origphrase[i] >= 'A' && origphrase[i] <= 'Z') || (origphrase[i] >= 'a' && origphrase[i] <= 'z')) // is a letter
         {
             tokens[token_i][j++] = origphrase[i];
         }
-        else                        //not a letter - TEST FOR "hi, there!""
+        else // not a letter - TEST FOR "hi, there!""
         {
-            tokens[token_i][j] = '\0';      //null terminate token
-            token_i++;						//sequence modifications
+            tokens[token_i][j] = '\0'; // null terminate token
+            token_i++;                 // sequence modifications
             j = 0;
-            //prevent overflow?
+            // prevent overflow?
         }
         i++;
     }
-    
-    
-	//ERROR HANDLING
-    if (j > 0)  // Handle the last token if it wasn't terminated
+
+    // ERROR HANDLING
+    if (j > 0) // Handle the last token if it wasn't terminated
     {
         tokens[token_i][j] = '\0';
     }
@@ -962,8 +956,7 @@ int tokenize(String150 origphrase, String30 tokens[MAX_ENTRIES])
     for (k = token_i + 1; k < MAX_ENTRIES; k++)
     {
         tokens[k][0] = '\0';
-    } 
-
+    }
 }
 
 /**
@@ -978,11 +971,11 @@ int tokenize(String150 origphrase, String30 tokens[MAX_ENTRIES])
 
 int matchTranslation(struct langTag ltags[], int lang_count, const char *language)
 {
-    //make sure it returns correct index
+    // make sure it returns correct index
 
     int i;
 
-    for (i = 0; i < lang_count	/*or lang_count*/; i++)
+    for (i = 0; i < lang_count /*or lang_count*/; i++)
     {
         if (strcmp(language, ltags[i].iLanguage) == 0)
         {
@@ -994,7 +987,7 @@ int matchTranslation(struct langTag ltags[], int lang_count, const char *languag
 }
 
 /**
- * function identifyLanguage identifies main language of string 
+ * function identifyLanguage identifies main language of string
  * @param dictionary - array of struct
  * @param entryCount - total nubmer of struct in dictionary
  *
@@ -1003,95 +996,94 @@ int matchTranslation(struct langTag ltags[], int lang_count, const char *languag
 void identifyLanguage(Entry dictionary[], int entryCount)
 {
     printf("IDENTIFY LANGUAGE\n");
-	
+
     struct langTag ltags[MAX_LANG_LEN];
-	
-	int i, j, k;
-	int tokens_i;
-	
-	String150 origphrase;
+
+    int i, j, k;
+    int tokens_i;
+
+    String150 origphrase;
     int t_size;
     String30 tokens[MAX_ENTRIES];
-	
-	fgets(origphrase, 150, stdin);
-	origphrase[strcspn(origphrase, "\n")] = '\0';		//is this allowed
-	t_size = tokenize(origphrase, tokens);
+
+    fgets(origphrase, 150, stdin);
+    origphrase[strcspn(origphrase, "\n")] = '\0'; // is this allowed
+    t_size = tokenize(origphrase, tokens);
 
     int lang_count = 0;
     int lang_index = 0;
     int max = 0;
 
-    for(i = 0; i < entryCount; i++)
+    for (i = 0; i < entryCount; i++)
     {
-	    for (j = 0; j < dictionary[i].count; j++)			//what is dictionary count
+        for (j = 0; j < dictionary[i].count; j++) // what is dictionary count
         {
-		    for(tokens_i = 0; tokens_i < t_size; tokens_i++)
-		    {
-			    if( strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0)      //FOUND - mahal 
-			    {       //get language
-			    	lang_index = matchTranslation(ltags, lang_count, dictionary[i].pairs[j].language);
-                    //lang_index = matchTranslation(dictionary, langTag f, entryCount, lang_count, i, j)
-                
-                //*1: language is logged na
-                    if(lang_index != -1)                    //log new language in langtag
+            for (tokens_i = 0; tokens_i < t_size; tokens_i++)
+            {
+                if (strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) // FOUND - mahal
+                {                                                                      // get language
+                    lang_index = matchTranslation(ltags, lang_count, dictionary[i].pairs[j].language);
+                    // lang_index = matchTranslation(dictionary, langTag f, entryCount, lang_count, i, j)
+
+                    //*1: language is logged na
+                    if (lang_index != -1) // log new language in langtag
                     {
                         strcpy(ltags[lang_count].iLanguage, dictionary[i].pairs[j].language);
                         ltags[lang_count].nWord++;
                         lang_count++;
                     }
-                //*2: first instance of language 
-                    else if(lang_index != -1)
+                    //*2: first instance of language
+                    else if (lang_index != -1)
                     {
                         ltags[lang_index].nWord++;
                     }
-			    }
+                }
                 //*3: DOES NOT EXIST IN DICTIONARY - just keep going
-		    }
+            }
         }
     }
 
-    for (int i = 1; i < lang_count; i++) 
+    for (int i = 1; i < lang_count; i++)
     {
-        if (ltags[i].nWord > ltags[max].nWord) 
+        if (ltags[i].nWord > ltags[max].nWord)
         {
-            max = i;  // Update max
+            max = i; // Update max
         }
     }
-    //what if tie w another lanuage
-    //if none of the words are found in the array of entries, like “mi casa su casa”, then the result is a message to say that it cannot determine the language.]
+    // what if tie w another lanuage
+    // if none of the words are found in the array of entries, like “mi casa su casa”, then the result is a message to say that it cannot determine the language.]
 
     printf("The main language of text: %s is %s", origphrase, ltags[max].iLanguage);
 
-    //erase - create clear function?
+    // erase - create clear function?
 
-    languageTool(dictionary, entryCount);     //go back to language processing menu
-
+    languageTool(dictionary, entryCount); // go back to language processing menu
 }
 
 /**
- * function simpleTranslation identifies main language of string 
+ * function simpleTranslation identifies main language of string
  * @param dictionary - array of struct
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
 void simpleTranslation(Entry dictionary[], int entryCount)
 {
-    char sourcelang [MAX_LANG_LEN];         //INPUT DECLARATION
-    char destlang [MAX_LANG_LEN];
-	String150 origphrase;
-	
-    String150 transphrase;      //OUTPUT DECLARATION
-    
-    String30 tokens[MAX_ENTRIES];			//for tokenizing
-    int t_size = 0;							//no of tokens
+    char sourcelang[MAX_LANG_LEN]; // INPUT DECLARATION
+    char destlang[MAX_LANG_LEN];
+    String150 origphrase;
+
+    String150 transphrase; // OUTPUT DECLARATION
+
+    String30 tokens[MAX_ENTRIES]; // for tokenizing
+    int t_size = 0;               // no of tokens
     int i, j, tokens_i;
     int flag = 0;
-    
-    char choice;		//
-	
+
+    char choice; //
+
     printf("SIMPLE TRANSLATION\n");
 
-    //GET INPUTS
+    // GET INPUTS
     printf("Translate from: ");
     fgets(sourcelang, MAX_LANG_LEN, stdin);
 
@@ -1099,65 +1091,63 @@ void simpleTranslation(Entry dictionary[], int entryCount)
     fgets(destlang, MAX_LANG_LEN, stdin);
 
     printf("Input phrase/sentence to translate: ");
-	fgets(origphrase, 150, stdin);
-	t_size = tokenize(origphrase, tokens);
+    fgets(origphrase, 150, stdin);
+    t_size = tokenize(origphrase, tokens);
 
-    for (int i = 0; i < entryCount; i++)            //find translation pair
+    for (int i = 0; i < entryCount; i++) // find translation pair
     {
-        for (int j = 0; j < dictionary[i].count; j++) 
+        for (int j = 0; j < dictionary[i].count; j++)
         {
-            for(tokens_i = 0; tokens_i < t_size; tokens_i++)
+            for (tokens_i = 0; tokens_i < t_size; tokens_i++)
             {
-                if (strcmp(dictionary[i].pairs[j].language, sourcelang) == 0 && strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0)    // Found the phrase in the source language
+                if (strcmp(dictionary[i].pairs[j].language, sourcelang) == 0 && strcmp(dictionary[i].pairs[j].translation, tokens[tokens_i]) == 0) // Found the phrase in the source language
                 {
                     for (int k = 0; k < dictionary[i].count; k++)
                     {
-                        if (    strcmp(dictionary[i].pairs[k].language, destlang) == 0)
+                        if (strcmp(dictionary[i].pairs[k].language, destlang) == 0)
                         {
                             strcat(transphrase, " ");
-                            strcat(transphrase, dictionary[i].pairs[k].translation);  // Append the translation
+                            strcat(transphrase, dictionary[i].pairs[k].translation); // Append the translation
                             flag = 1;
-                            //break;
+                            // break;
                         }
                     }
                 }
-                else if ((i == entryCount - 1) && (j == dictionary[i].count - 1) && (flag == 0))        // No phrase in the source language
+                else if ((i == entryCount - 1) && (j == dictionary[i].count - 1) && (flag == 0)) // No phrase in the source language
                 {
                     strcat(transphrase, " ");
-                    strcat(transphrase, tokens[tokens_i]);       //keep the orig one
+                    strcat(transphrase, tokens[tokens_i]); // keep the orig one
                 }
             }
         }
     }
 
+    // CLEAR DATA
 
-    //CLEAR DATA
+    flag = 0; // reset flag to use again
 
-    flag = 0;           //reset flag to use again
-
-    //DISPLAY
+    // DISPLAY
     printf("\nThe translated phrase is: %s", transphrase);
 
-    while(flag == 0)            //ASK IF THEY WANT AGAIN
+    while (flag == 0) // ASK IF THEY WANT AGAIN
     {
         printf("Would you like to go back to translate again? [Y/N]\n");
         scanf("%c", &choice);
-        if(choice == 'Y' || choice == 'y')
+        if (choice == 'Y' || choice == 'y')
         {
             flag = 1;
             simpleTranslation(dictionary, entryCount);
         }
-        else if(choice == 'N' || choice == 'n')
+        else if (choice == 'N' || choice == 'n')
         {
             flag = 1;
-            languageTool(dictionary, entryCount);     //go back to language processing menu - is this automatic
+            languageTool(dictionary, entryCount); // go back to language processing menu - is this automatic
         }
-        else 
+        else
         {
             printf("INVALID OPTION. try again.");
         }
     }
-
 }
 
 /**
@@ -1166,32 +1156,31 @@ void simpleTranslation(Entry dictionary[], int entryCount)
  */
 void languageTool(Entry dictionary[], int entryCount)
 {
-	int langChoice;
-	//where to declare dictionary
-	
-	do
-	{
-		languageToolMenu();		//display menu
-		scanf("%d", &langChoice);
-		
-		switch(langChoice)
-		{
-			case 1:				//identify main language
-                printf("\e[1;1H\e[2J");
-				identifyLanguage(dictionary, entryCount);		//no & cos we wont edit
-				break;
-			case 2:					//simple translation
-                printf("\e[1;1H\e[2J");
-				simpleTranslation(dictionary, entryCount);
-				//printf("sucess");			//automatically goes back to language tool menu after
-				break;
-			case 3:					//exit - everything should be cleared
-				return;
-			default:
-            	printf("Invalid choice. Please try again.\n");
-            	break;
-		}	
-		
-	} while (langChoice != 3);
-	
+    int langChoice;
+    // where to declare dictionary
+
+    do
+    {
+        languageToolMenu(); // display menu
+        scanf("%d", &langChoice);
+
+        switch (langChoice)
+        {
+        case 1: // identify main language
+            printf("\e[1;1H\e[2J");
+            identifyLanguage(dictionary, entryCount); // no & cos we wont edit
+            break;
+        case 2: // simple translation
+            printf("\e[1;1H\e[2J");
+            simpleTranslation(dictionary, entryCount);
+            // printf("sucess");			//automatically goes back to language tool menu after
+            break;
+        case 3: // exit - everything should be cleared
+            return;
+        default:
+            printf("Invalid choice. Please try again.\n");
+            break;
+        }
+
+    } while (langChoice != 3);
 }
