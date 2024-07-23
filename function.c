@@ -13,7 +13,8 @@ otherwise plagiarized the work of other students and/or persons.
     Display for Main Menu
 
 */
-void displayMainMenu()
+void 
+displayMainMenu()
 {
 
     printf("=====================================\n");
@@ -29,7 +30,8 @@ void displayMainMenu()
     Display for manage Date Menu
 
 */
-void manageDataMenu()
+void 
+manageDataMenu()
 {
 
     printf("=====================================\n");
@@ -54,7 +56,8 @@ void manageDataMenu()
     Display for language tool Menu
 
 */
-void languageToolMenu()
+void 
+languageToolMenu()
 {
 
     printf("=====================================\n");
@@ -74,7 +77,9 @@ void languageToolMenu()
  * @param dictionary - contains an array of struct
  * @param entryCount  - contains the total number of entries
  */
-void manageData(Entry dictionary[], int *entryCount)
+void 
+manageData(Entry dictionary[], 
+            int *entryCount)
 {
     int manageChoice;
     do
@@ -161,7 +166,8 @@ void manageData(Entry dictionary[], int *entryCount)
  *
  * @param dictionary - a struct containing all the pairs and count
  */
-void displayEntry(Entry dictionary)
+void 
+displayEntry(Entry dictionary)
 {
     int i, j;
 
@@ -176,7 +182,8 @@ void displayEntry(Entry dictionary)
  *  the function sort entry sorts all the pairs according ALPHABETICALLY
  * @param dictionary - array of struct
  */
-void sortEntry(Entry dictionary[])
+void 
+sortEntry(Entry dictionary[])
 {
     int i, j;
 
@@ -211,7 +218,12 @@ void sortEntry(Entry dictionary[])
  * @param indexFound - array of integers which stores the found indicies
  */
 
-int checkEntry(Entry dictionary[], int entryCount, String20 language, String20 translation, int indexFound[])
+int 
+checkEntry(Entry dictionary[], 
+            int entryCount, 
+            String20 language, 
+            String20 translation, 
+            int indexFound[])
 {
     int i;
     int count = 0;
@@ -236,7 +248,9 @@ int checkEntry(Entry dictionary[], int entryCount, String20 language, String20 t
  * @param dictionary - array of struct
  * @param entryCount - total number of struct in dictionary
  */
-void addEntry(Entry dictionary[], int *entryCount)
+void 
+addEntry(Entry dictionary[], 
+            int *entryCount)
 {
     String20 language;
     String20 translation;
@@ -324,7 +338,9 @@ void addEntry(Entry dictionary[], int *entryCount)
  * @param dictionary - array of struct
  * @param entryCount - total number of struct
  */
-void addTranslation(Entry dictionary[], int entryCount)
+void 
+addTranslation(Entry dictionary[], 
+                int entryCount)
 {
     String20 language;
     String20 translation;
@@ -406,7 +422,9 @@ void addTranslation(Entry dictionary[], int entryCount)
  * @param dictionary - array of struct
  * @param entryCount - total number of struct in dictionary
  */
-void displayAll(Entry dictionary[], int entryCount)
+void 
+displayAll(Entry dictionary[], 
+            int entryCount)
 {
     int i, j;
     int page = 0;
@@ -511,7 +529,9 @@ void displayAll(Entry dictionary[], int entryCount)
  * @param entryCount - total number of struct in dictionary
  */
 
-void modifyEntry(Entry dictionary[], int entryCount)
+void 
+modifyEntry(Entry dictionary[], 
+            int entryCount)
 {
     int response;
     int response2;
@@ -595,7 +615,9 @@ void modifyEntry(Entry dictionary[], int entryCount)
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
-void deleteTranslation(Entry dictionary[], int *entryCount)
+void 
+deleteTranslation(Entry dictionary[], 
+                    int *entryCount)
 {
     int response;
     int response2;
@@ -643,7 +665,9 @@ void deleteTranslation(Entry dictionary[], int *entryCount)
  *
  */
 
-void deleteEntry(Entry dictionary[], int *entryCount)
+void 
+deleteEntry(Entry dictionary[], 
+            int *entryCount)
 {
 
     int response;
@@ -673,7 +697,9 @@ void deleteEntry(Entry dictionary[], int *entryCount)
  *
  */
 
-void searchWord(Entry dictionary[], int entryCount)
+void 
+searchWord(Entry dictionary[], 
+            int entryCount)
 {
     String20 word;
     char response;
@@ -712,7 +738,9 @@ void searchWord(Entry dictionary[], int entryCount)
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
-void searchTranslation(Entry dictionary[], int entryCount)
+void 
+searchTranslation(Entry dictionary[], 
+                    int entryCount)
 {
     int i, j;
     int count = 0;
@@ -752,7 +780,9 @@ void searchTranslation(Entry dictionary[], int entryCount)
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
-void exportFile(Entry dictionary[], int entryCount)
+void 
+exportFile(Entry dictionary[], 
+            int entryCount)
 {
     FILE *fp;
     String30 filename;
@@ -777,12 +807,17 @@ void exportFile(Entry dictionary[], int entryCount)
 }
 
 /**
- * function import File IMPORTS DATA
- * @param dictionary - array of struct
- * @param entryCount - total nubmer of struct in dictionary
- *
+ * function getText
+ * @param fp - file pointer
+ * @param pLang - string pointer
+ * @param pTrans - string pointer
+ *@param ch - imported character from file
  */
-void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
+void 
+getText(FILE *fp, 
+        String20 *pLang, 
+        String20 *pTrans, 
+        char ch)
 {
     String20 sTemp, sLanguage, sTranslation;
     char cDump;
@@ -803,12 +838,14 @@ void getText(FILE *fp, String20 *pLang, String20 *pTrans, char ch)
 }
 
 /**
- * function import File IMPORTS DATA
+ * function importFile IMPORTS DATA from file data type
  * @param dictionary - array of struct
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
-void importFile(Entry dictionary[], int *entryCount) // add to menu - will test tom
+void 
+importFile(Entry dictionary[], 
+                int *entryCount)
 {
     FILE *fp;
     String20 file_name;
@@ -926,9 +963,11 @@ void importFile(Entry dictionary[], int *entryCount) // add to menu - will test 
 /*
  * function tokenize returns number of tokens in phrase
  * @param origphrase - phrase to be tokenized
- *
+ * @param tokens[] - array of tokens derived from orig phrase
  */
-int tokenize(String150 origphrase, String30 tokens[MAX_ENTRIES])
+int 
+tokenize(String150 origphrase, 
+        String30 tokens[MAX_ENTRIES])
 {
     int token_i = 0; // token index
     int i = 0;       // original phrase index
@@ -966,22 +1005,22 @@ int tokenize(String150 origphrase, String30 tokens[MAX_ENTRIES])
 }
 
 /**
- * function matchTranslation checks if an existing entry is in the array of struct
+ * function matchTranslation returns index where language was found
  * returns index of language in langTag struct
- * @param dictionary - array of struct
- * @param entryCount - total number of struct in dictionary
+ * @param ltags - array of struct
+ * @param lang_count - total number of struct in dictionary
  * @param language - string to search in dictionary
- * @param translation - string to search in dictinonary
- * @param indexFound - array of integers which stores the found indicies
  */
 
-int matchTranslation(struct langTag ltags[], int lang_count, const char *language)
+int 
+matchTranslation(struct langTag ltags[], 
+                    int lang_count, 
+                    const char *language)
 {
-    // make sure it returns correct index
 
     int i;
 
-    for (i = 0; i < lang_count /*or lang_count*/; i++)
+    for (i = 0; i < lang_count ; i++)
     {
         if (strcmp(language, ltags[i].iLanguage) == 0)
         {
@@ -993,12 +1032,14 @@ int matchTranslation(struct langTag ltags[], int lang_count, const char *languag
 }
 
 /**
- * function identifyLanguage identifies main language of string
- * @param dictionary - array of struct
- * @param entryCount - total nubmer of struct in dictionary
+ * function sortDescending rearranges structs to sort based on descending nWord count
+ * @param ltags - array of struct
+ * @param lang_count - total nubmer of struct in ltags
  *
  */
-void sort(struct langTag ltags[], int lang_count)
+void 
+sortDescending(struct langTag ltags[], 
+                int lang_count)
 {
   int i, j, min;
   struct langTag lTemp;
@@ -1023,12 +1064,13 @@ void sort(struct langTag ltags[], int lang_count)
 }
 
 /**
- * function checkPair identifies main language of string
+ * function seeMatch identifies main language of string
  * @param dictionary - array of struct
  * @param entryCount - total nubmer of struct in dictionary
  *
  */
-int seeMatch(Entry dictionary[], 
+int 
+seeMatch(Entry dictionary[], 
               int n, 
               String20 sLang, 
               String20 sTrans)
@@ -1053,7 +1095,9 @@ int seeMatch(Entry dictionary[],
  *
  */
 
-void identifyLanguage(Entry dictionary[], int entryCount)
+void 
+identifyLanguage(Entry dictionary[], 
+                int entryCount)
 {
     printf("[IDENTIFY LANGUAGE]\n");
 
@@ -1124,7 +1168,7 @@ void identifyLanguage(Entry dictionary[], int entryCount)
         }
             
         if(lang_count > 1)
-            sort(ltags, lang_count);                 //sort language
+            sortDescending(ltags, lang_count);                 //sort language
            
     }
 
@@ -1139,12 +1183,14 @@ void identifyLanguage(Entry dictionary[], int entryCount)
 }
 
 /**
- * function simpleTranslation identifies main language of string
+ * function simpleTranslation translate a phrase from 1 language to another
  * @param dictionary - array of struct
- * @param entryCount - total nubmer of struct in dictionary
+ * @param entryCount - total number of struct in dictionary
  *
  */
-void simpleTranslation(Entry dictionary[], int entryCount)
+void 
+simpleTranslation(Entry dictionary[], 
+                    int entryCount)
 {
     char sourcelang[MAX_LANG_LEN]; // INPUT DECLARATION
     char destlang[MAX_LANG_LEN];
@@ -1244,9 +1290,12 @@ void simpleTranslation(Entry dictionary[], int entryCount)
 
 /**
  * function languageTool displays choices in Language Tool Menu
- *
+ *@param dictionary - array of structs
+ *@param entryCount - total number of struct in dictionary
  */
-void languageTool(Entry dictionary[], int entryCount)
+void 
+languageTool(Entry dictionary[], 
+                int entryCount)
 {
     int langChoice;
 
