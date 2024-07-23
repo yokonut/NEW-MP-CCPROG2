@@ -13,10 +13,10 @@ otherwise plagiarized the work of other students and/or persons.
     Display for Main Menu
 
 */
+
 void 
 displayMainMenu()
 {
-
     printf("=====================================\n");
     printf("        Welcome to the Dictionary    \n");
     printf("=====================================\n");
@@ -967,7 +967,7 @@ importFile(Entry dictionary[],
  */
 int 
 tokenize(String150 origphrase, 
-        String30 tokens[MAX_ENTRIES])
+        String20 tokens[MAX_ENTRIES])
 {
     int token_i = 0; // token index
     int i = 0;       // original phrase index
@@ -1044,11 +1044,11 @@ sortDescending(struct langTag ltags[],
   int i, j, min;
   struct langTag lTemp;
 
-  for (i = 0; i < n - 1; i++)
+  for (i = 0; i < lang_count - 1; i++)
   {
     min = i;
 
-    for (j = i + 1; j < n; j++)
+    for (j = i + 1; j < lang_count; j++)
     {
       if (ltags[min].nWord < ltags[j].nWord)
         min = j;
@@ -1071,16 +1071,16 @@ sortDescending(struct langTag ltags[],
  */
 int 
 seeMatch(Entry dictionary[], 
-              int n, 
-              String20 sLang, 
-              String20 sTrans)
+			int n, 
+			String20 sLang, 
+			String20 sTrans)
 {
   int i;
 
-  for (i = 0; i < entry[n].nPair; i++)
+  for (i = 0; i < dictionary[n].count; i++)
   {
-    if (strcmp(sLang, entry[n].sPair[i].pLanguage) == 0 &&
-        strcmp(sTrans, entry[n].sPair[i].pTranslation) == 0) //checks if pair exists
+    if (strcmp(sLang, dictionary[n].pairs[i].language) == 0 &&
+        strcmp(sTrans, dictionary[n].pairs[i].translation) == 0) //checks if pair exists
     {
       return 1; //found
     }
@@ -1103,12 +1103,13 @@ identifyLanguage(Entry dictionary[],
 
     struct langTag ltags[MAX_LANG_LEN];
 
-    int i, j;
+    int i, j, k, m;
+    int wCount, wDump;
     int tokens_i;
 
     String150 origphrase;
     int t_size;
-    String30 tokens[MAX_ENTRIES];
+    String20 tokens[MAX_ENTRIES];
     int len;
 
     fgets(origphrase, sizeof(origphrase), stdin);
@@ -1153,7 +1154,7 @@ identifyLanguage(Entry dictionary[],
                 wDump = 0;
                 for (j = 0; j < entryCount; j++)
                 {
-                    if(seeMatch(entry, j, ltags[i].iLanguage, words[m]) == 1)
+                    if(seeMatch(dictionary, j, ltags[i].iLanguage, tokens[m]) == 1)
                     {
                         wDump++;
                     }
@@ -1197,7 +1198,7 @@ simpleTranslation(Entry dictionary[],
 
     String150 origphrase;
     String150 transphrase;        // OUTPUT DECLARATION
-    String30 tokens[MAX_ENTRIES]; // for tokenizing
+    String20 tokens[MAX_ENTRIES]; // for tokenizing
 
     int t_size = 0; // no of tokens
     int i, j, index = 0, m;
