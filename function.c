@@ -1106,12 +1106,10 @@ void simpleTranslation(Entry dictionary[], int entryCount)
 
     printf("Translate to: ");
     scanf("%s", destlang);
-    while ((c = getchar()) != '\n' && c != EOF)
-    {
-    }
+
     printf("Input phrase/sentence to translate: ");
 
-    fgets(origphrase, 150, stdin);
+    fgets(origphrase, sizeof(origphrase), stdin);
     len = strlen(origphrase) - 1;
 
     if (origphrase[len] == '\n')
