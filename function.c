@@ -1183,8 +1183,7 @@ void simpleTranslation(Entry dictionary[], int entryCount)
 
     // Remove trailing space
     len = strlen(transphrase) - 1;
-    if (transphrase[len] == '\n')
-        transphrase[len - 1] = '\0';
+    transphrase[len] = '\0';
 
     printf("Translated phrase: %s\n", transphrase);
 
